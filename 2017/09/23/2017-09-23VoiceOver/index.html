@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="了解 VoiceOver，支持 VoiceOver！"/>
+
+
+
+
+  <meta name="keywords" content="ReadOn,VoiceOver,Swift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson' Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2017/09/23/2017-09-23VoiceOver/"/>
+
+
+<meta name="description" content="上个月 ReadOn 在 AppStore 有条特殊的评论。根据这位小伙伴的反馈，ReadOn 在 VoiceOver 下大体是可以操作的，但细节上体验还不够好。说实话这让我很感动又很惭愧，感动是因为苹果的伟大，它让所有人都能无障碍地使用 Apple 的产品。很惭愧自己之前都没有意识到这点，所以为了能让大家都能无障碍地使用 app，我决定要好好了解一下 VoiceOver，并改善 ReadOn 在">
+<meta name="keywords" content="ReadOn,VoiceOver,Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="了解 VoiceOver，支持 VoiceOver！">
+<meta property="og:url" content="https://starkrimson.github.io/2017/09/23/2017-09-23VoiceOver/index.html">
+<meta property="og:site_name" content="Starkrimson&#39; Blog">
+<meta property="og:description" content="上个月 ReadOn 在 AppStore 有条特殊的评论。根据这位小伙伴的反馈，ReadOn 在 VoiceOver 下大体是可以操作的，但细节上体验还不够好。说实话这让我很感动又很惭愧，感动是因为苹果的伟大，它让所有人都能无障碍地使用 Apple 的产品。很惭愧自己之前都没有意识到这点，所以为了能让大家都能无障碍地使用 app，我决定要好好了解一下 VoiceOver，并改善 ReadOn 在">
+<meta property="og:image" content="https://starkrimson.github.io/images/17-09-05VoiceOver/voiceOver1.png">
+<meta property="og:updated_time" content="2017-10-16T13:53:19.564Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="了解 VoiceOver，支持 VoiceOver！">
+<meta name="twitter:description" content="上个月 ReadOn 在 AppStore 有条特殊的评论。根据这位小伙伴的反馈，ReadOn 在 VoiceOver 下大体是可以操作的，但细节上体验还不够好。说实话这让我很感动又很惭愧，感动是因为苹果的伟大，它让所有人都能无障碍地使用 Apple 的产品。很惭愧自己之前都没有意识到这点，所以为了能让大家都能无障碍地使用 app，我决定要好好了解一下 VoiceOver，并改善 ReadOn 在">
+<meta name="twitter:image" content="https://starkrimson.github.io/images/17-09-05VoiceOver/voiceOver1.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 了解 VoiceOver，支持 VoiceOver！ - Starkrimson' Blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson' Blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          了解 VoiceOver，支持 VoiceOver！
+        
+      </h1>
+
+      <time class="post-time">
+          Sep 23 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p><img src="/images/17-09-05VoiceOver/voiceOver1.png" alt=""><br>上个月 <a href="https://itunes.apple.com/cn/app/id1212717344" target="_blank" rel="noopener">ReadOn</a> 在 <a href="https://itunes.apple.com/cn/app/id1212717344" target="_blank" rel="noopener">AppStore</a> 有条特殊的评论。根据这位小伙伴的反馈，ReadOn 在 VoiceOver 下大体是可以操作的，但细节上体验还不够好。说实话这让我很感动又很惭愧，感动是因为苹果的伟大，它让所有人都能无障碍地使用 Apple 的产品。很惭愧自己之前都没有意识到这点，所以为了能让大家都能无障碍地使用 app，我决定要好好了解一下 VoiceOver，并改善 ReadOn 在这方面的体验。</p>
+<a id="more"></a>
+<h3 id="VoiceOver-是什么"><a href="#VoiceOver-是什么" class="headerlink" title="VoiceOver 是什么"></a>VoiceOver 是什么</h3><blockquote>
+<p>VoiceOver 是一个非常杰出的屏幕朗读器，它面向那些存在视力障碍（包括近视、弱视和完全失明）的用户。<strong>有了 VoiceOver，视障者就好像拥有了一双明亮的眼睛</strong>。通过 VoiceOver，视障用户可以和普通用户一样完全无障碍的使用 Apple 所有操作系统中的内置应用以及很多第三方 App。</p>
+</blockquote>
+<p>事实上，此前我对 VoiceOver 的了解很少，只知道它是苹果家的一个辅助功能，可以朗读屏幕之类。所以在尝试开发 VoiceOver 之前，先得知道它能干些什么，和怎么工作的。然后我找到了一些文章：<a href="https://sspai.com/post/40324" target="_blank" rel="noopener">VoiceOver：Apple 给视障者的一双眼</a>，<a href="https://sspai.com/post/40687" target="_blank" rel="noopener">盲人是如何使用 iPhone 的：专访顾伶磊</a>。</p>
+<h3 id="VoiceOver-基本使用"><a href="#VoiceOver-基本使用" class="headerlink" title="VoiceOver 基本使用"></a>VoiceOver 基本使用</h3><p>以下是我收集的 VoiceOver 常用的手势：</p>
+<ul>
+<li><p>单击</p>
+<p>单击屏幕会让 VoiceOver 选择一个元素，然后会读出指到的内容</p>
+</li>
+<li><p>双击</p>
+<p>双击屏幕能激活当前元素对应的操作，例如打开 app，点击一个 button 等。</p>
+</li>
+<li><p>左划／右划</p>
+<p>单指左滑或者右滑可以屏幕上一个元素或者下一个元素。</p>
+</li>
+<li><p>三指划动</p>
+<p>三指划动可以垂直或水平滚动内容</p>
+</li>
+<li><p>双指 Z 手势</p>
+<p>双指在屏幕划一个 Z 字形返回导航层次的上一级</p>
+</li>
+</ul>
+<h3 id="针对-VoiceOver-的优化"><a href="#针对-VoiceOver-的优化" class="headerlink" title="针对 VoiceOver 的优化"></a>针对 VoiceOver 的优化</h3><h4 id="设置-accessibilityLabel-描述一个控件，让-VoiceOver-朗读出来"><a href="#设置-accessibilityLabel-描述一个控件，让-VoiceOver-朗读出来" class="headerlink" title="设置 accessibilityLabel 描述一个控件，让 VoiceOver 朗读出来"></a>设置 <code>accessibilityLabel</code> 描述一个控件，让 VoiceOver 朗读出来</h4><p>默认情况下，当 VoiceOver 访问到一个 <code>UIButton</code>，它会朗读出该按钮的 <strong>title</strong>，如果这个按钮是纯图片的，它会朗读这张图片的文件名，那么如果是一个空白的按钮，就要自己描述这个按钮了。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">leftMenuBtn.accessibilityLabel = <span class="string">"左侧栏"</span></span><br></pre></td></tr></table></figure>
+<p>然后这里是可以 <strong>localized</strong> 的，如果你也有做国际化，这是不可少的。</p>
+<p>同样地，如果是个 <code>UILabel</code> 则会朗读出 label 的 text。</p>
+<h4 id="更好地描述内容"><a href="#更好地描述内容" class="headerlink" title="更好地描述内容"></a>更好地描述内容</h4><p>ReadOn 有一个 cell，上面显示了文章的标题，发布时间和作者。其中发布时间和作者像是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">9月 15，周五 | 小明</span><br></pre></td></tr></table></figure>
+<p>这里我想表达的意思是，文章发布于 9月15日，作者是小明。但是 VoiceOver 读出来是这样的「9月15，周五 垂直线 小明」。显然「垂直线」不是我想要的结果。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">.accessibilityLabel = <span class="string">"9月 15，周五，作者：小明"</span> <span class="comment">//这里的结果当然不是固定的字符串，只是方便演示</span></span><br></pre></td></tr></table></figure>
+<p>这样，VoiceOver 就会按照我想要的朗读出来，并且在视觉上并没有改变。</p>
+<h4 id="设置-isAccessibilityElement-控制某个控件是否被VoiceOver-访问"><a href="#设置-isAccessibilityElement-控制某个控件是否被VoiceOver-访问" class="headerlink" title="设置 isAccessibilityElement 控制某个控件是否被VoiceOver 访问"></a>设置 <code>isAccessibilityElement</code> 控制某个控件是否被VoiceOver 访问</h4><p><code>isAccessibilityElement</code> 可以控制某个 <code>UIKit</code> 控件是否可以被 VoiceOver 访问，并且 <code>UIView</code> 默认是 <strong>false</strong> 的。</p>
+<p>在 ReadOn 中，我有个 view，view 里面有个 label。这时 VoiceOver  选中时默认是访问到 view 内的 label。这里我希望能访问到 View，并且读出文件夹名就好。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 首先将 label 设置为不是 Accessibility 的元素</span></span><br><span class="line"><span class="keyword">self</span>.label.isAccessibilityElement = <span class="literal">false</span></span><br><span class="line"></span><br><span class="line"><span class="comment">// 然后设置 view 为 Accessibility 的元素</span></span><br><span class="line"><span class="keyword">self</span>.isAccessibilityElement = <span class="literal">true</span></span><br><span class="line"><span class="keyword">self</span>.accessibilityLabel = text</span><br></pre></td></tr></table></figure>
+<h4 id="「Z」手势返回上一层级。"><a href="#「Z」手势返回上一层级。" class="headerlink" title="「Z」手势返回上一层级。"></a>「Z」手势返回上一层级。</h4><p>默认情况，使用了 navigation 的话，双指 Z 是可以返回上一页。由于 ReadOn 隐藏了 navigation bar，所以这个手势失效了。「Z」手势会触发这个方法 <code>accessibilityPerformEscape()</code>，需要在这里添加上自己想要的返回操作：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">accessibilityPerformEscape</span><span class="params">()</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    navigationController?.popViewController(animated: <span class="literal">true</span>)</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h4 id="判断-VoiceOver-是否正在使用"><a href="#判断-VoiceOver-是否正在使用" class="headerlink" title="判断 VoiceOver 是否正在使用"></a>判断 VoiceOver 是否正在使用</h4><p><code>UIAccessibilityIsVoiceOverRunning()</code> 可以判断 VoiceOver 是否正在使用。</p>
+<p>可以通过该方法判断 VoiceOver 是否在使用，并做一些改动：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> <span class="type">UIAccessibilityIsVoiceOverRunning</span>() &#123;</span><br><span class="line">  	...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/ReadOn/">ReadOn</a>
+		  
+			<a href="/tags/VoiceOver/">VoiceOver</a>
+		  
+			<a href="/tags/Swift/">Swift</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/11/02/ReadOnReleaseNote/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">ReadOn 1.4 发布！性能优化，提高用户体验。</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/09/06/ReadOnIntroduction/">
+        <span class="next-text nav-default">ReadOn - 一个 Rss 阅读器</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

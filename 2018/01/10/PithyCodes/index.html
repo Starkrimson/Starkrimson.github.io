@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="简代码大作用"/>
+
+
+
+
+  <meta name="keywords" content="Swift," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson' Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2018/01/10/PithyCodes/"/>
+
+
+<meta name="description" content="简洁却高效的代码收集。">
+<meta name="keywords" content="Swift">
+<meta property="og:type" content="article">
+<meta property="og:title" content="简代码大作用">
+<meta property="og:url" content="https://starkrimson.github.io/2018/01/10/PithyCodes/index.html">
+<meta property="og:site_name" content="Starkrimson&#39; Blog">
+<meta property="og:description" content="简洁却高效的代码收集。">
+<meta property="og:updated_time" content="2018-01-10T04:31:47.157Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="简代码大作用">
+<meta name="twitter:description" content="简洁却高效的代码收集。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 简代码大作用 - Starkrimson' Blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson' Blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          简代码大作用
+        
+      </h1>
+
+      <time class="post-time">
+          Jan 10 2018
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>简洁却高效的代码收集。<br><a id="more"></a></p>
+<h3 id="更改-UIButton-ImageView-尺寸"><a href="#更改-UIButton-ImageView-尺寸" class="headerlink" title="更改 UIButton ImageView 尺寸"></a>更改 UIButton ImageView 尺寸</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">button.imageEdgeInsets = <span class="type">UIEdgeInsetsMake</span>(<span class="number">10</span>, <span class="number">0</span>, <span class="number">10</span>, <span class="number">0</span>)</span><br><span class="line"><span class="comment">//同样还有 titleEdgeInsets contentEdgeInsets</span></span><br></pre></td></tr></table></figure>
+<h3 id="更改-UIButton-highlight-backgroundColor"><a href="#更改-UIButton-highlight-backgroundColor" class="headerlink" title="更改 UIButton highlight backgroundColor"></a>更改 UIButton highlight backgroundColor</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> isHighlighted: <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">didSet</span> &#123;</span><br><span class="line">        backgroundColor = isHighlighted ? .white : <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="获取数组-index"><a href="#获取数组-index" class="headerlink" title="获取数组 index"></a>获取数组 index</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> person1 = <span class="type">Person</span>(name: <span class="string">"John"</span>)</span><br><span class="line"><span class="keyword">let</span> person2 = <span class="type">Person</span>(name: <span class="string">"Sue"</span>)</span><br><span class="line"><span class="keyword">let</span> person3 = <span class="type">Person</span>(name: <span class="string">"Maria"</span>)</span><br><span class="line"><span class="keyword">let</span> person4 = <span class="type">Person</span>(name: <span class="string">"Loner"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> people = [person1, person2, person3]</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> indexOfPerson1 = people.index&#123;$<span class="number">0</span> === person1&#125; <span class="comment">// 0</span></span><br><span class="line"><span class="keyword">let</span> indexOfPerson2 = people.index&#123;$<span class="number">0</span> === person2&#125; <span class="comment">// 1</span></span><br><span class="line"><span class="keyword">let</span> indexOfPerson3 = people.index&#123;$<span class="number">0</span> === person3&#125; <span class="comment">// 2</span></span><br><span class="line"><span class="keyword">let</span> indexOfPerson4 = people.index&#123;$<span class="number">0</span> === person4&#125; <span class="comment">// nil</span></span><br></pre></td></tr></table></figure>
+<h3 id="隐藏-Navigation-bar-和-toolbar-的分割线"><a href="#隐藏-Navigation-bar-和-toolbar-的分割线" class="headerlink" title="隐藏 Navigation bar 和 toolbar 的分割线"></a>隐藏 Navigation bar 和 toolbar 的分割线</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">toolbar.clipsToBounds = <span class="literal">true</span></span><br><span class="line">navigationController?.navigationBar.clipsToBounds = <span class="literal">true</span></span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>需要注意的是，navigation bar 设置 clipsToBounds 为 true 之后，statusBar 的背景颜色将和 navigation bar 的不一致</p>
+<p>所以可以看出来，navigation bar 的原理是设置超出自己范围的 background color，来达成 navigation bar 和 statusBar 背景一致的。</p>
+</blockquote>
+<h3 id="iPad-TableView-全屏幕（iOS-9-）"><a href="#iPad-TableView-全屏幕（iOS-9-）" class="headerlink" title="iPad TableView 全屏幕（iOS 9+）"></a>iPad TableView 全屏幕（iOS 9+）</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">tableView.cellLayoutMarginsFollowReadableWidth = <span class="literal">false</span></span><br></pre></td></tr></table></figure>
+<h3 id="ASDK-解决-NetworkImageNode-闪烁"><a href="#ASDK-解决-NetworkImageNode-闪烁" class="headerlink" title="ASDK 解决 NetworkImageNode 闪烁"></a>ASDK 解决 NetworkImageNode 闪烁</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">imageNode = <span class="type">ASImageNode</span>(viewBlock: &#123; () -&gt; <span class="type">UIView</span> <span class="keyword">in</span></span><br><span class="line">    <span class="keyword">let</span> imgView = <span class="type">UIImageView</span>()</span><br><span class="line">    imgView.pin_updateWithProgress = <span class="literal">true</span> <span class="comment">//需要渐进式编码的jpg图片（progressive JPGs），才能实现图片由模糊到清晰加载。</span></span><br><span class="line">    imgView.pin_setImage(from: <span class="type">URL</span>(string: imagePath))</span><br><span class="line">    <span class="keyword">return</span> imgView</span><br><span class="line">&#125;)</span><br></pre></td></tr></table></figure>
+<h3 id="iOS9-隐藏-Status-Bar"><a href="#iOS9-隐藏-Status-Bar" class="headerlink" title="iOS9+ 隐藏 Status Bar"></a>iOS9+ 隐藏 Status Bar</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> prefersStatusBarHidden : <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">//以下两个方法会触发</span></span><br><span class="line"><span class="comment">//navigationController?.setNavigationBarHidden(&lt;#T##hidden: Bool##Bool#&gt;, animated: &lt;#T##Bool#&gt;)</span></span><br><span class="line"><span class="comment">//setNeedsStatusBarAppearanceUpdate()</span></span><br></pre></td></tr></table></figure>
+<h3 id="更改-Status-Bar-背景颜色"><a href="#更改-Status-Bar-背景颜色" class="headerlink" title="更改 Status Bar 背景颜色"></a>更改 Status Bar 背景颜色</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">guard</span> <span class="keyword">let</span> statusBar = <span class="type">UIApplication</span>.shared.value(forKeyPath: <span class="string">"statusBarWindow.statusBar"</span>) <span class="keyword">as</span>? <span class="type">UIView</span> <span class="keyword">else</span> &#123; <span class="keyword">return</span> &#125;</span><br><span class="line">statusBar.backgroundColor = kBackgroundColor</span><br></pre></td></tr></table></figure>
+<blockquote>
+<p>// TODO: iOS 11 beta 会出现状态栏闪烁，正式版情况不清</p>
+</blockquote>
+<h3 id="Error-code"><a href="#Error-code" class="headerlink" title="Error code"></a>Error code</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NSURLErrorTimedOut = -1001</span><br><span class="line">NSURLErrorNetworkConnectionLost = </span><br><span class="line">NSURLErrorNotConnectedToInternet = -1009,</span><br></pre></td></tr></table></figure>
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Swift/">Swift</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2017/11/02/ReadOnReleaseNote/">
+        <span class="next-text nav-default">ReadOn 1.4 发布！性能优化，提高用户体验。</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

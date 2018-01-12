@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="如何愉快地处理 Optional"/>
+
+
+
+
+  <meta name="keywords" content="Swift,Optional," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson' Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2016/10/29/About-Swift-Optional/"/>
+
+
+<meta name="description" content="比较好的几种处理 Optional 的方法。">
+<meta name="keywords" content="Swift,Optional">
+<meta property="og:type" content="article">
+<meta property="og:title" content="如何愉快地处理 Optional">
+<meta property="og:url" content="https://starkrimson.github.io/2016/10/29/About-Swift-Optional/index.html">
+<meta property="og:site_name" content="Starkrimson&#39; Blog">
+<meta property="og:description" content="比较好的几种处理 Optional 的方法。">
+<meta property="og:updated_time" content="2017-09-03T10:34:22.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="如何愉快地处理 Optional">
+<meta name="twitter:description" content="比较好的几种处理 Optional 的方法。">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 如何愉快地处理 Optional - Starkrimson' Blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson' Blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          如何愉快地处理 Optional
+        
+      </h1>
+
+      <time class="post-time">
+          Oct 29 2016
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>比较好的几种处理 Optional 的方法。</p>
+<a id="more"></a>
+<h2 id="1-「-」-操作符"><a href="#1-「-」-操作符" class="headerlink" title="1.「 ?? 」 操作符"></a>1.「 ?? 」 操作符</h2><p>在使用 <code>??</code> 之前，先来复习下三目运算符：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> <span class="built_in">max</span> = a &gt; b ? a : b</span><br><span class="line"><span class="comment">//如果 a &gt; b 为真，返回 a， 为假返回 b。</span></span><br></pre></td></tr></table></figure>
+<p>再来看下 <code>??</code> 的用法</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> i: <span class="type">Int</span>? = <span class="number">100</span></span><br><span class="line"><span class="keyword">let</span> x = i ?? <span class="number">0</span> <span class="comment">// x = 100</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> y: <span class="type">Int</span>? = <span class="literal">nil</span></span><br><span class="line"><span class="keyword">let</span> z = y ?? <span class="number">0</span> <span class="comment">// y = 0</span></span><br></pre></td></tr></table></figure>
+<p><code>??</code> 与三目运算类似，如果一个 optional 有值，使用值。如果没值，使用 <code>??</code> 后面的值。</p>
+<p>如果按住 <code>⌥ Optoian</code> 点击 <code>x</code> 和 <code>z</code>。可以看到它们的类型推导为 <code>let x: Int</code> <code>let z: Int</code>，并<strong>不是</strong>一个可选值</p>
+<p>利用 <code>??</code> 操作符，可以起到给一个 optional 属性设置一个默认值的作用。 在后续使用中不需要考虑解包的问题。</p>
+<h2 id="2-Optional-Binding-可选绑定"><a href="#2-Optional-Binding-可选绑定" class="headerlink" title="2. Optional Binding 可选绑定"></a>2. Optional Binding 可选绑定</h2><h3 id="2-1-if-let"><a href="#2-1-if-let" class="headerlink" title="2.1 if let"></a>2.1 <code>if let</code></h3><p>来看一个小🌰：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">contact</span><span class="params">(name: String?, phone: String?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">if</span> <span class="keyword">let</span> name = name, <span class="keyword">let</span> phone = phone &#123;</span><br><span class="line">    	<span class="comment">// 只有当 name 和 phone 一定有值，</span></span><br><span class="line">    	才会进入该分支</span><br><span class="line">        <span class="keyword">let</span> contact = name + <span class="string">" "</span> + phone <span class="comment">// 可以直接参与计算</span></span><br><span class="line">        <span class="built_in">print</span>(contact)</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"name or phone nil"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>例子中的函数，有两个参数并且都是可选的。那么在函数内部就要考虑到参数的解包问题。使用 if let 可选绑定成功后，name 和 age 都一定有值，可直接使用。它们的类型推导都是非可选值。</p>
+<p>可以看到，我在使用 <code>if let name = name</code> 的时候，使用了同名的变量来接收值，在后续使用都是非空值。可以避免想变量名的烦恼…</p>
+<p>在整个函数实现内部，没有出现一个 <code>?</code> 或者 <code>!</code> 。是不是看到和清爽？(并且更安全)</p>
+<h3 id="2-2-guard-let"><a href="#2-2-guard-let" class="headerlink" title="2.2 guard let"></a>2.2 <code>guard let</code></h3><p>guard let 刚好与 if let 相反</p>
+<p>再来一个🌰：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">contact</span><span class="params">(name: String?, phone: String?)</span></span> &#123;</span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> name = name, <span class="keyword">let</span> phone = phone <span class="keyword">else</span> &#123;</span><br><span class="line">    	<span class="comment">// 当 name 或者 phone 为 nil，才会进入该分支</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"name or phone nil"</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="comment">// 在分支的最后，需要有 return 或者 break ...</span></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 如果没有进入 guard 分支，则 name 和 phone 都有值，可直接参与计算</span></span><br><span class="line">    <span class="keyword">let</span> contact = name + <span class="string">" "</span> + phone</span><br><span class="line">    <span class="built_in">print</span>(contact)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>guard let 在日常开发使用的更多一些，我们可以在 guard 分支里做一些错误处理，然后返回。</p>
+<p>如果没有进入 guard 分支，那么后面那些变量的都是有值的。可以直接使用</p>
+<blockquote>
+<p>同样的还有 <code>if var</code> 、 <code>guard var</code></p>
+</blockquote>
+<h2 id="3-Optional-Map"><a href="#3-Optional-Map" class="headerlink" title="3. Optional Map"></a>3. Optional Map</h2><p>如果有  <code>let i: Int?</code> ，i 是一个整型可选值，我想对它 *2 并且返回一个新的值。如果 i 有值的话就 *2 然后返回，如果没值则返回 nil。使用可选绑定可以这么写：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">var</span> x: <span class="type">Int</span>?</span><br><span class="line"><span class="keyword">if</span> <span class="keyword">let</span> i = i &#123;</span><br><span class="line">    x = i * <span class="number">2</span></span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    x = <span class="literal">nil</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>但有个更简洁的方法是使用 <code>map</code></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> i: <span class="type">Int</span>? = <span class="number">100</span></span><br><span class="line"><span class="keyword">let</span> x = i.<span class="built_in">map</span> &#123; $<span class="number">0</span> * <span class="number">2</span> &#125; <span class="comment">// --&gt; let x: Int?; x = 200</span></span><br></pre></td></tr></table></figure>
+<p>使用 <code>map</code> 可以方便地操作一个 optional，而不需要进行手动的解包工作</p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Swift/">Swift</a>
+		  
+			<a href="/tags/Optional/">Optional</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/02/08/3D-Touch/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">3D Touch</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/10/22/Xcode8-three-tips/">
+        <span class="next-text nav-default">Xcode8 的 3 个小技巧</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

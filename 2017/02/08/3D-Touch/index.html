@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="3D Touch"/>
+
+
+
+
+  <meta name="keywords" content="Swift,3D Touch," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson' Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2017/02/08/3D-Touch/"/>
+
+
+<meta name="description" content="3D Touch 是 iPhone 6s 及以后机型带来的新功能，是一种立体触控技术，可以感应不同的感压力度。在 app 开发中，主要分为三大模块：Quick Actions、Peek and Pop、Pressure Sensitivity">
+<meta name="keywords" content="Swift,3D Touch">
+<meta property="og:type" content="article">
+<meta property="og:title" content="3D Touch">
+<meta property="og:url" content="https://starkrimson.github.io/2017/02/08/3D-Touch/index.html">
+<meta property="og:site_name" content="Starkrimson&#39; Blog">
+<meta property="og:description" content="3D Touch 是 iPhone 6s 及以后机型带来的新功能，是一种立体触控技术，可以感应不同的感压力度。在 app 开发中，主要分为三大模块：Quick Actions、Peek and Pop、Pressure Sensitivity">
+<meta property="og:image" content="https://starkrimson.github.io/images/3D-Touch/quick-actions-02.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/3D-Touch/quick-actions-03.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/3D-Touch/peek-and-pop-01.png">
+<meta property="og:updated_time" content="2017-09-04T06:47:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="3D Touch">
+<meta name="twitter:description" content="3D Touch 是 iPhone 6s 及以后机型带来的新功能，是一种立体触控技术，可以感应不同的感压力度。在 app 开发中，主要分为三大模块：Quick Actions、Peek and Pop、Pressure Sensitivity">
+<meta name="twitter:image" content="https://starkrimson.github.io/images/3D-Touch/quick-actions-02.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 3D Touch - Starkrimson' Blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson' Blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          3D Touch
+        
+      </h1>
+
+      <time class="post-time">
+          Feb 8 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>3D Touch 是 iPhone 6s 及以后机型带来的新功能，是一种立体触控技术，可以感应不同的感压力度。在 app 开发中，主要分为三大模块：<code>Quick Actions</code>、<code>Peek and Pop</code>、<code>Pressure Sensitivity</code></p>
+<a id="more"></a>
+<blockquote>
+<p>iPhone 6s and iPhone 6s Plus bring a powerful new dimension to the Multi-Touch interface with 3D Touch. This new technology senses how deeply users press the display, letting them do more than ever with your apps and games.</p>
+<p>— developer.apple.com</p>
+</blockquote>
+<p>demo 地址：<a href="https://github.com/Starkrimson/3D-Touch-Demo" target="_blank" rel="noopener">3D-Touch-Demo</a></p>
+<h2 id="1-Quick-Actions"><a href="#1-Quick-Actions" class="headerlink" title="1. Quick Actions"></a>1. Quick Actions</h2><p>在 Home 界面按压 app 图片，可以显示最多 4 个标签。点击不同的标签可以进入 app 并且处理相应的事件。下面来看下实现方法</p>
+<p>创建 <code>Quick Actions</code> 有两种方式，1) 在 info.plist 文件中静态声明；2) 在程序初始化时利用代码动态添加</p>
+<ul>
+<li>静态声明<br><img src="/images/3D-Touch/quick-actions-02.png" alt=""><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;UIApplicationShortcutItems&lt;/key&gt;</span><br><span class="line">&lt;array&gt;</span><br><span class="line">	&lt;dict&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;share&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemTitle&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;分享&lt;/string&gt;</span><br><span class="line">		&lt;key&gt;UIApplicationShortcutItemIconType&lt;/key&gt;</span><br><span class="line">		&lt;string&gt;UIApplicationShortcutIconTypeShare&lt;/string&gt;</span><br><span class="line">	&lt;/dict&gt;</span><br><span class="line">&lt;/array&gt;</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+<p>如上，其中<code>UIApplicationShortcutItemType</code>、<code>UIApplicationShortcutItemTitle</code>是必填项。<code>UIApplicationShortcutItemIconType</code>、<code>UIApplicationShortcutItemIconFile</code>、<code>UIApplicationShortcutItemSubtitle</code>为选填项。</p>
+<ul>
+<li>动态添加</li>
+</ul>
+<p>通过代码，指定<code>application.shortcutItems</code>快捷方式数组，可在如下方法中添加 (具体位置可根据自己情况而定)。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?)</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">let</span> shareItem = <span class="type">UIApplicationShortcutItem</span>(type: <span class="string">"share"</span>, localizedTitle: <span class="string">"分享"</span>, localizedSubtitle: <span class="literal">nil</span>, icon: <span class="type">UIApplicationShortcutIcon</span>(type: .share), userInfo: <span class="literal">nil</span>)</span><br><span class="line">    <span class="comment">// ... 更多 item 设置</span></span><br><span class="line">    application.shortcutItems = [shareItem]</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>运行程序后，按压 app 图标，将可以看到一个「分享」的标签。</p>
+<ul>
+<li>响应回调</li>
+</ul>
+<p><code>UIApplication</code>提供了一个方法接听 <code>shortcutItem</code>的点击</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> application: UIApplication, performActionFor shortcutItem: UIApplicationShortcutItem, completionHandler: @escaping <span class="params">(Bool)</span></span></span> -&gt; <span class="type">Void</span>) &#123;</span><br><span class="line">	<span class="comment">// 可通过之前设置的 type 唯一标示区分点击的按钮，作出不同的响应</span></span><br><span class="line">    <span class="keyword">switch</span> shortcutItem.type &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">"share"</span>:</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"clicked share"</span>)</span><br><span class="line">    <span class="keyword">default</span>:</span><br><span class="line">        <span class="keyword">break</span></span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在 iOS10 中，如果该 app 还添加了 todayExtension。在按压 app 图标后，在 quick actions 上方还会显示该 app 的 widget。如果自带的「天气」app。</p>
+<p><img src="/images/3D-Touch/quick-actions-03.png" alt=""></p>
+<h2 id="2-Peek-and-Pop"><a href="#2-Peek-and-Pop" class="headerlink" title="2. Peek and Pop"></a>2. Peek and Pop</h2><p><img src="/images/3D-Touch/peek-and-pop-01.png" alt=""></p>
+<p>Peek and Pop 大概分为 3 个步骤，1) 轻按，焦点高亮其余部分变模糊。2) 加大力度，出现目标 ViewController 预览。3) 这时可以继续重压 push 至目标 ViewController (或者自定义动作)；或者手指上滑，将出现右图的<code>PreviewAction</code></p>
+<p>由于 3D Touch 需要 iPhone 6s 以上机型支持，所以需要判断 3D Touch 的可用性</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line">traitCollection.forceTouchCapability == .available ? <span class="number">_</span> = registerForPreviewing(with: <span class="keyword">self</span>, sourceView: cell) : ()</span><br></pre></td></tr></table></figure>
+<p>这里使用了一个三目，如果是可用的，则执行<code>registerForPreviewing</code>注册，设置 cell 为 sourceView</p>
+<p>接下来遵循<code>UIViewControllerPreviewingDelegate</code>协议，实现其方法</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="class"><span class="keyword">extension</span> <span class="title">ViewController</span>: <span class="title">UIViewControllerPreviewingDelegate</span> </span>&#123;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 重压后触发</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(<span class="number">_</span> previewingContext: UIViewControllerPreviewing, commit viewControllerToCommit: UIViewController)</span></span> &#123;</span><br><span class="line">        navigationController?.pushViewController(<span class="type">DetailViewController</span>(), animated: <span class="literal">true</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="comment">// 返回触发 Peek 事件的原始图</span></span><br><span class="line">    <span class="function"><span class="keyword">func</span> <span class="title">previewingContext</span><span class="params">(<span class="number">_</span> previewingContext: UIViewControllerPreviewing, viewControllerForLocation location: CGPoint)</span></span> -&gt; <span class="type">UIViewController</span>? &#123;</span><br><span class="line">        <span class="keyword">let</span> detailViewController = <span class="type">DetailViewController</span>()</span><br><span class="line">        <span class="keyword">return</span> detailViewController</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>上滑后出现的 <code>PreviewAction</code>需要在目标 ViewController 中实现。同样需要注册 <code>registerForPreviewing</code>和遵循<code>UIViewControllerPreviewingDelegate</code>。并且额外重写一个计算型属性</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="keyword">var</span> previewActionItems: [<span class="type">UIPreviewActionItem</span>] &#123;</span><br><span class="line">    <span class="keyword">let</span> item = <span class="type">UIPreviewAction</span>(title: <span class="string">"Greet"</span>, style: .<span class="keyword">default</span>) &#123; (action, viewController) <span class="keyword">in</span></span><br><span class="line">        <span class="built_in">print</span>(<span class="string">"Hello"</span>)</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> [item]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Swift/">Swift</a>
+		  
+			<a href="/tags/3D-Touch/">3D Touch</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/04/03/TodayExtension-(Widget)/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">TodayExtension (Widget)</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2016/10/29/About-Swift-Optional/">
+        <span class="next-text nav-default">如何愉快地处理 Optional</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>

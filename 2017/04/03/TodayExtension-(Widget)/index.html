@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="TodayExtension (Widget)"/>
+
+
+
+
+  <meta name="keywords" content="Swift,TodayExtension,widget," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson' Blog">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2017/04/03/TodayExtension-(Widget)/"/>
+
+
+<meta name="description" content="本文将介绍如何在「今日试图」中添加一个扩展，主要以 iOS10 Widget 为主。首先扩展是附属在一个应用内的，也就是我们不能通过 AppStore 直接下载一个扩展，它一定是和宿主 app 一起安装。扩展有自己独立的生命周期。下面将介绍如何创建一个扩展，如何与宿主 app 进行交互。">
+<meta name="keywords" content="Swift,TodayExtension,widget">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TodayExtension (Widget)">
+<meta property="og:url" content="https://starkrimson.github.io/2017/04/03/TodayExtension-(Widget)/index.html">
+<meta property="og:site_name" content="Starkrimson&#39; Blog">
+<meta property="og:description" content="本文将介绍如何在「今日试图」中添加一个扩展，主要以 iOS10 Widget 为主。首先扩展是附属在一个应用内的，也就是我们不能通过 AppStore 直接下载一个扩展，它一定是和宿主 app 一起安装。扩展有自己独立的生命周期。下面将介绍如何创建一个扩展，如何与宿主 app 进行交互。">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today1.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today2.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today3.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today4.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today5.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today6.png">
+<meta property="og:image" content="https://starkrimson.github.io/images/TodayExtension/today7.png">
+<meta property="og:updated_time" content="2017-09-04T06:51:13.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TodayExtension (Widget)">
+<meta name="twitter:description" content="本文将介绍如何在「今日试图」中添加一个扩展，主要以 iOS10 Widget 为主。首先扩展是附属在一个应用内的，也就是我们不能通过 AppStore 直接下载一个扩展，它一定是和宿主 app 一起安装。扩展有自己独立的生命周期。下面将介绍如何创建一个扩展，如何与宿主 app 进行交互。">
+<meta name="twitter:image" content="https://starkrimson.github.io/images/TodayExtension/today1.png">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> TodayExtension (Widget) - Starkrimson' Blog </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson' Blog</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/">
+                            
+                            
+                                Home
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          TodayExtension (Widget)
+        
+      </h1>
+
+      <time class="post-time">
+          Apr 3 2017
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>本文将介绍如何在「今日试图」中添加一个扩展，主要以 iOS10 Widget 为主。首先扩展是附属在一个应用内的，也就是我们不能通过 AppStore 直接下载一个扩展，它一定是和宿主 app 一起安装。扩展有自己独立的生命周期。下面将介绍如何创建一个扩展，如何与宿主 app 进行交互。</p>
+<a id="more"></a>
+<p>demo 地址 : <a href="https://github.com/Starkrimson/TodayExtension-Widget-demo" target="_blank" rel="noopener">TodayExtension (Widget)</a></p>
+<h2 id="1-添加-TodayExtendion-target"><a href="#1-添加-TodayExtendion-target" class="headerlink" title="1. 添加 TodayExtendion target"></a>1. 添加 TodayExtendion target</h2><p>点选菜单 <strong>File</strong> &gt; <strong>New</strong> &gt; <strong>Target…</strong>，在 <strong>iOS</strong> &gt; <strong>Application Extension</strong> 可以找到 <strong>TodayExtension</strong>，命名确认后让 Xcode 自动生成新的 Scheme。这时项目中会有一个和刚刚新建的 target 的同名文件夹，里面包含了<code>TodayViewController.swift</code> <code>MainInterface.storyboard</code> <code>info.plist</code> 3个文件。可以看到，在<code>storyboard</code>里默认添加了一个「Hello Wrold」的 label。现在运行一下项目，一切正常的话，会看到如下图：</p>
+<p><img src="/images/TodayExtension/today1.png" alt=""></p>
+<p>关于 widget 内容的展示，在 ViewController 里控制就行，具体想要展示的样子，开发者可以自由完成，这里就不展示了。</p>
+<h2 id="2-iOS10-Widget-高度调整"><a href="#2-iOS10-Widget-高度调整" class="headerlink" title="2. iOS10 Widget 高度调整"></a>2. iOS10 Widget 高度调整</h2><p>如上图，一个 widget 的高度默认是 110。</p>
+<ul>
+<li>在右上角显示「展开/折叠」按钮</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 需判断系统版本为10.0以上</span></span><br><span class="line"><span class="keyword">if</span> #available(iOSApplicationExtension <span class="number">10.0</span>, *) &#123;</span><br><span class="line">    extensionContext?.widgetLargestAvailableDisplayMode = .expanded</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="comment">// Fallback on earlier versions</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/TodayExtension/today2.png" alt=""></p>
+<ul>
+<li>点击「展开/折叠」按钮的回调并控制高度</li>
+</ul>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 同样需要判断版本为10.0以上</span></span><br><span class="line"><span class="meta">@available</span>(iOSApplicationExtension <span class="number">10.0</span>, *)</span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">widgetActiveDisplayModeDidChange</span><span class="params">(<span class="number">_</span> activeDisplayMode: NCWidgetDisplayMode, withMaximumSize maxSize: CGSize)</span></span> &#123;</span><br><span class="line">    <span class="keyword">switch</span> activeDisplayMode &#123;</span><br><span class="line">    <span class="keyword">case</span> .compact:</span><br><span class="line">        preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">110</span>)</span><br><span class="line">    <span class="keyword">case</span> .expanded:</span><br><span class="line">        preferredContentSize = <span class="type">CGSize</span>(width: <span class="number">0</span>, height: <span class="number">220</span>)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><img src="/images/TodayExtension/today3.png" alt=""></p>
+<h2 id="3-使用-App-Groups-共享扩展和主应用数据"><a href="#3-使用-App-Groups-共享扩展和主应用数据" class="headerlink" title="3. 使用 App Groups 共享扩展和主应用数据"></a>3. 使用 App Groups 共享扩展和主应用数据</h2><p>由于沙盒的限制，我们不能直接在扩展和主应用间共享数据，这时候要用到 <strong>App Groups</strong>。App Groups 为同一个 vender 的应用或者扩展定义了一组域，在这个域中同一个 group 可以共享一些资源。</p>
+<ul>
+<li>开启 App Groups </li>
+</ul>
+<p>选择主 target 的 <strong>Capabilities</strong> 选项，找到 App Groups 选项，后面有个开关开启。并添加一个 goups name。这里添加一个<code>group.HelloTodayUserDefault</code> 。然后同样的在扩展的 target 也进行同样的步骤。<br><img src="/images/TodayExtension/today4.png" alt=""></p>
+<ul>
+<li>使用同一 groups 下的 userDefault 进行数据共享</li>
+</ul>
+<p>为了方便演示，我在主 target 里添加了一个 textView。textView 的文本修改后，将通过 userDefault 将数据共享给扩展。看下代码：</p>
+<p>在宿主 app 中更改了 textView 的值，同步到 group 的 userDefault 中</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">textViewDidChange</span><span class="params">(<span class="number">_</span> textView: UITextView)</span></span> &#123;</span><br><span class="line">	<span class="comment">// suiteName 与 Capabilities 添加的一致</span></span><br><span class="line">    <span class="keyword">let</span> userDefault = <span class="type">UserDefaults</span>(suiteName: <span class="string">"group.HelloTodayUserDefault"</span>)</span><br><span class="line">    userDefault?.<span class="keyword">set</span>(textView.text, forKey: <span class="string">"textView.value"</span>)</span><br><span class="line">    userDefault?.synchronize()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在扩展中获取数据</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> userDefault = <span class="type">UserDefaults</span>(suiteName: <span class="string">"group.HelloTodayUserDefault"</span>)</span><br><span class="line">label.text = userDefault?.value(forKey: <span class="string">"textView.value"</span>) <span class="keyword">as</span>? <span class="type">String</span> ?? <span class="string">"sth. wrong"</span></span><br></pre></td></tr></table></figure>
+<p><img src="/images/TodayExtension/today5.png" alt=""></p>
+<h2 id="4-扩展和主应用共享代码"><a href="#4-扩展和主应用共享代码" class="headerlink" title="4. 扩展和主应用共享代码"></a>4. 扩展和主应用共享代码</h2><p>一个最简单的方式是把需要公用的代码文件加入扩展 target 的编译文件中，但是这么做不好的地方是，当这些共用的文件越来越多，添加到 target 这种方式将难以管理和维护。iOS8 之后 apple 提供了一个更好的方式，做成 Framework。</p>
+<p>点选 <strong>File</strong> &gt; <strong>New</strong> &gt; <strong>Target</strong>…，在 <strong>Framework &amp; Library</strong> 可以找到 <strong>Cocoa Touch Framework</strong>，next 命名。</p>
+<p>上面的代码里，suiteName 我都是直接使用字符串，这里很不好的就是万一两个地方写的不一样了，就有问题了。接下来我在 taget 里添加一个 swift 文件，用一个常量来记录这两个 key 值。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> groupSuiteName = <span class="string">"group.HelloTodayUserDefault"</span></span><br><span class="line"><span class="keyword">let</span> kTextValue = <span class="string">"textView.value"</span></span><br></pre></td></tr></table></figure>
+<p>首先在主程序的 ViewController 中 import 刚刚新建的 Framework。这时我将原来的字符串替换为常量，发现 Xcode 会提示未定义之类的。这是由于同一个 module 中默认 <code>internal</code> 访问层级，现在代码处于不同的 module。所以需要更改 swift 文件的权限，在需要在外部访问的地方加上 <code>public</code> 关键字</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> groupSuiteName = <span class="string">"group.HelloTodayUserDefault"</span></span><br><span class="line"><span class="keyword">public</span> <span class="keyword">let</span> kTextValue = <span class="string">"textView.value"</span></span><br></pre></td></tr></table></figure>
+<p>接下来在 ViewController 中就可以直接使用了：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> userDefault = <span class="type">UserDefaults</span>(suiteName: groupSuiteName)</span><br><span class="line">userDefault?.<span class="keyword">set</span>(textView.text, forKey: kTextValue)</span><br><span class="line">userDefault?.synchronize()</span><br></pre></td></tr></table></figure>
+<p>同样的步骤，将 Framework 链接到扩展中</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">let</span> userDefault = <span class="type">UserDefaults</span>(suiteName: groupSuiteName)</span><br><span class="line">label.text = userDefault?.value(forKey: kTextValue) <span class="keyword">as</span>? <span class="type">String</span> ?? <span class="string">"sth. wrong"</span></span><br></pre></td></tr></table></figure>
+<p>接下来编译可以通过，但是会收到一条警告：<br><img src="/images/TodayExtension/today6.png" alt=""></p>
+<p>这是由于作为插件，需要严格遵守沙盒限制，一些 API 是不能使用的。避免这个警告，需要在 Framework 中声明使用的是扩展可用的 API。切换到 framework target 中的 <strong>General</strong> 选项，在 <strong>Deployment Info</strong> 下面勾选 <strong>Allow app extension API only</strong>。关于不可用的 API，apple 都标注了 <code>NS_EXTENSION_UNAVAILABLE</code>。</p>
+<h2 id="5-从扩展进入主程序"><a href="#5-从扩展进入主程序" class="headerlink" title="5. 从扩展进入主程序"></a>5. 从扩展进入主程序</h2><p>扩展提供了 <code>NSExtensionContext</code> 类来与主应用交互，这里使用 <code>open</code> 方法就好了。</p>
+<p>这里为了方便演示，我就直接给扩展的 view 添加一个点击手势了。由于这是一个 ViewController，我相信开发者会有很多操作的空间。</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="keyword">override</span> <span class="function"><span class="keyword">func</span> <span class="title">viewDidLoad</span><span class="params">()</span></span> &#123;</span><br><span class="line">	...</span><br><span class="line">    <span class="keyword">let</span> tap = <span class="type">UITapGestureRecognizer</span>(target: <span class="keyword">self</span>, action: #selector(tapAction))</span><br><span class="line">    view.addGestureRecognizer(tap)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">tapAction</span><span class="params">()</span></span> &#123;</span><br><span class="line">    <span class="keyword">guard</span> <span class="keyword">let</span> url = <span class="type">URL</span>(string: <span class="string">"todayDemo://helloToday"</span>) <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    &#125;</span><br><span class="line">    extensionContext?.<span class="keyword">open</span>(url, completionHandler: <span class="literal">nil</span>)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>在主程序中添加对应的 <strong>URL Scheme</strong>：<br><img src="/images/TodayExtension/today7.png" alt=""></p>
+<p>在 <code>AppDelegate.swift</code> 中捕获打开事件，做出对应操作：</p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">func</span> <span class="title">application</span><span class="params">(<span class="number">_</span> app: UIApplication, <span class="keyword">open</span> url: URL, options: [UIApplicationOpenURLOptionsKey : Any] = [:])</span></span> -&gt; <span class="type">Bool</span> &#123;</span><br><span class="line">    <span class="keyword">if</span> url.scheme == <span class="string">"todayDemo"</span> &#123;</span><br><span class="line">        <span class="built_in">print</span>(url.host) <span class="comment">// -- helloToday</span></span><br><span class="line">        <span class="keyword">return</span> <span class="literal">true</span></span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">false</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>End.</p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Swift/">Swift</a>
+		  
+			<a href="/tags/TodayExtension/">TodayExtension</a>
+		  
+			<a href="/tags/widget/">widget</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+      <a class="prev" href="/2017/09/06/ReadOnIntroduction/">
+        <i class="iconfont icon-left"></i>
+        <span class="prev-text nav-default">ReadOn - 一个 Rss 阅读器</span>
+        <span class="prev-text nav-mobile">Prev</span>
+      </a>
+    
+    
+      <a class="next" href="/2017/02/08/3D-Touch/">
+        <span class="next-text nav-default">3D Touch</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
