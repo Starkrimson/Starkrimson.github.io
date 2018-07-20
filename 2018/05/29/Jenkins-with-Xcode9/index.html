@@ -54,8 +54,11 @@
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84q4utxj317u0fswg3.jpg">
 <meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1frr84sl33bj317y0uwdj9.jpg">
 <meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84qm8mtj31120fe769.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fsxjm3xge9j30wm0c4gmo.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1fsxjm4steoj317i0c2mzi.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsxjm5qj7ij316e08sq42.jpg">
 <meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1frr84r0kdnj31800to0vw.jpg">
-<meta property="og:updated_time" content="2018-05-31T08:02:26.000Z">
+<meta property="og:updated_time" content="2018-07-04T00:58:37.419Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Jenkins + Xcode9 持续集成环境搭建">
 <meta name="twitter:description" content="最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。">
@@ -231,7 +234,9 @@
 <p>红框部分修改为刚刚设置的 Name，以 <code>$</code> 开头。</p>
 <p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frr84qm8mtj31120fe769.jpg" alt="Build with Parameters"></p>
 <p>这时 Build Now 就变成 Build with Parameters 了。右侧选择分支，然后开 build。</p>
-<p>这个插件适合手动构建，如果设置了轮询自动构建，会因为找不到分支而构建失败，有什么好的方案告诉我啊。</p>
+<p><del>这个插件适合手动构建，如果设置了轮询自动构建，会因为找不到分支而构建失败，有什么好的方案告诉我啊。</del></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fsxjm3xge9j30wm0c4gmo.jpg" alt="image-20180703103936525"></p>
+<p>点击右侧的 Advanced，有一栏「Default Value」可以指定默认的分支。这样轮询构建的时候就会自动选择这个分支。</p>
 <h3 id="获取-Bundle-ID-和-Provisioning-Profile-生成-ExportOptions-plist"><a href="#获取-Bundle-ID-和-Provisioning-Profile-生成-ExportOptions-plist" class="headerlink" title="获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist"></a>获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist</h3><p>☕️ 补充：Signing 勾选了 Automatically manage signing 可以不操作这步。</p>
 <p>现在可以指定任意的分支打包了，但可能每个分支的 Bundle ID 或者 Provisioning Profile 跟之前准备的 exportOptions 不一致，这样就得准备多一份 ExportOptions.plist。就写个脚本来获取吧。</p>
 <p>方案是这样的，先准备一份 exportOptions 模版，通过 <code>xcodebuild -showBuildSettings</code> 获取 Bundle ID 和 Provisioning Profile，替换模版生成一个新的 <code>.plist</code>，export 命令指定这个新的 <code>.plist</code> 就好了。</p>
@@ -256,6 +261,14 @@
 <h4 id="将导出的-ipa-文件复制到-ios-ipa-server-目录"><a href="#将导出的-ipa-文件复制到-ios-ipa-server-目录" class="headerlink" title="将导出的 ipa 文件复制到 ios-ipa-server 目录"></a>将导出的 ipa 文件复制到 ios-ipa-server 目录</h4><p>add Execute Shell：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash -l</span></span><br><span class="line">cd $&#123;JENKINS_HOME&#125;/jobs/$&#123;JOB_NAME&#125;/builds/$&#123;BUILD_NUMBER&#125;/archive</span><br><span class="line">DATE=$(date +%m%d-%H:%M)</span><br><span class="line">DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c "print CFBundleDisplayName" $&#123;WORKSPACE&#125;/$&#123;JOB_NAME&#125;/Info.plist)</span><br><span class="line">cp $&#123;JOB_NAME&#125;.ipa ~/Documents/ipa/$&#123;DISPLAY_NAME&#125;$&#123;DATE&#125;.ipa</span><br></pre></td></tr></table></figure>
 <p>关于证书问题，iOS 10.3 (不确定版本了) 以上除了需要安装描述文件外，还需要到「关于本机」- 「证书信任设置」将 ios-ipa-server 开启。</p>
+<h3 id="Build-Triggers"><a href="#Build-Triggers" class="headerlink" title="Build Triggers"></a>Build Triggers</h3><p>可以设置一些触发构建条件。</p>
+<h4 id="Trigger-builds-remotely"><a href="#Trigger-builds-remotely" class="headerlink" title="Trigger builds remotely"></a>Trigger builds remotely</h4><p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fsxjm4steoj317i0c2mzi.jpg" alt="image-20180703105112845"></p>
+<p>在远程终端就可以通过以下指令来触发构建：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl http://username:password@ipAddr:8080/job/jobName/build\?token\=tokenName</span><br></pre></td></tr></table></figure>
+<p>或者 <code>/buildWithParameters?</code>，指定 Git Parameter 的分支 <code>&amp;Branches=master</code></p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">curl http://username:password@ipAddr:8080/job/jobName/buildWithParameters\?token\=tokenName\&amp;Branches\=master</span><br></pre></td></tr></table></figure>
+<h5 id="Poll-SCM"><a href="#Poll-SCM" class="headerlink" title="Poll SCM"></a>Poll SCM</h5><p>Poll SCM 可以设置一个轮询周期，当 Git 上有代码更新才会触发构建：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fsxjm5qj7ij316e08sq42.jpg" alt="image-20180703110056338"></p>
 <h3 id="可能出现的错误和解决"><a href="#可能出现的错误和解决" class="headerlink" title="可能出现的错误和解决"></a>可能出现的错误和解决</h3><h4 id="pod-command-not-found"><a href="#pod-command-not-found" class="headerlink" title="pod: command not found"></a>pod: command not found</h4><p>Execute shell 第一行加上 <code>!/bin/bash -l</code></p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash">!/bin/bash -l</span></span><br><span class="line">cd FirstiOSItem</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">pod install --verbose --no-repo-update</span><br></pre></td></tr></table></figure>
 <p>export 语句将控制台语言环境设置为 UTF-8</p>
