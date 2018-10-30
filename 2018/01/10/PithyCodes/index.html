@@ -43,7 +43,7 @@
 <meta property="og:site_name" content="Starkrimson.init()">
 <meta property="og:description" content="简洁却高效的代码收集。">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-01-10T04:31:47.000Z">
+<meta property="og:updated_time" content="2018-10-16T02:19:03.896Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="简代码大作用">
 <meta name="twitter:description" content="简洁却高效的代码收集。">
@@ -165,6 +165,10 @@
 <p>// TODO: iOS 11 beta 会出现状态栏闪烁，正式版情况不清</p>
 </blockquote>
 <h3 id="Error-code"><a href="#Error-code" class="headerlink" title="Error code"></a>Error code</h3><figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">NSURLErrorTimedOut = -1001</span><br><span class="line">NSURLErrorNetworkConnectionLost = </span><br><span class="line">NSURLErrorNotConnectedToInternet = -1009,</span><br></pre></td></tr></table></figure>
+<h3 id="Array-排序"><a href="#Array-排序" class="headerlink" title="Array 排序"></a>Array 排序</h3><figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="number">_</span> = [<span class="string">"a"</span>, <span class="string">"b"</span>].sorted &#123;</span><br><span class="line">	$<span class="number">0</span>.localizedStandardCompare($<span class="number">1</span>) == <span class="type">ComparisonResult</span>.orderedAscending</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="UIAlertController-text-color"><a href="#UIAlertController-text-color" class="headerlink" title="UIAlertController text color"></a>UIAlertController text color</h3><p><a href="https://code.tutsplus.com/tutorials/create-a-custom-alert-controller-in-ios-10-swift-3--cms-27589" target="_blank" rel="noopener">https://code.tutsplus.com/tutorials/create-a-custom-alert-controller-in-ios-10-swift-3--cms-27589</a></p>
+<figure class="highlight swift"><table><tr><td class="code"><pre><span class="line"><span class="comment">// Change font of the title and message</span></span><br><span class="line"><span class="keyword">let</span> titleFont:[<span class="type">String</span> : <span class="type">AnyObject</span>] = [ <span class="type">NSFontAttributeName</span> : <span class="type">UIFont</span>(name: <span class="string">"AmericanTypewriter"</span>, size: <span class="number">18</span>)! ]</span><br><span class="line"><span class="keyword">let</span> messageFont:[<span class="type">String</span> : <span class="type">AnyObject</span>] = [ <span class="type">NSFontAttributeName</span> : <span class="type">UIFont</span>(name: <span class="string">"HelveticaNeue-Thin"</span>, size: <span class="number">14</span>)! ]</span><br><span class="line"><span class="keyword">let</span> attributedTitle = <span class="type">NSMutableAttributedString</span>(string: <span class="string">"Multiple buttons"</span>, attributes: titleFont)</span><br><span class="line"><span class="keyword">let</span> attributedMessage = <span class="type">NSMutableAttributedString</span>(string: <span class="string">"Select an Action"</span>, attributes: messageFont)</span><br><span class="line">alert.setValue(attributedTitle, forKey: <span class="string">"attributedTitle"</span>)</span><br><span class="line">alert.setValue(attributedMessage, forKey: <span class="string">"attributedMessage"</span>)</span><br></pre></td></tr></table></figure>
+
             </div>
           
 
