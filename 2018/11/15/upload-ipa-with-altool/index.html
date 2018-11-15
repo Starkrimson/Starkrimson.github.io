@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="">
+  <head>
+    
+<meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width,user-scalable=no,initial-scale=1,minimum-scale=1,maximum-scale=1">
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+  <meta name="description" content="使用 altool 上传 ipa 至 TestFlight"/>
+
+
+
+
+  <meta name="keywords" content="Jenkins,Continuous integration,altool," />
+
+
+
+
+
+  <link rel="alternate" href="/atom.xml" title="Starkrimson.init()">
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=1.1" />
+
+
+
+<link rel="canonical" href="https://starkrimson.github.io/2018/11/15/upload-ipa-with-altool/"/>
+
+
+<meta name="description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
+<meta name="keywords" content="Jenkins,Continuous integration,altool">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用 altool 上传 ipa 至 TestFlight">
+<meta property="og:url" content="https://starkrimson.github.io/2018/11/15/upload-ipa-with-altool/index.html">
+<meta property="og:site_name" content="Starkrimson.init()">
+<meta property="og:description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fx8rwjholhj318y0tujxa.jpg">
+<meta property="og:updated_time" content="2018-11-15T07:40:02.595Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用 altool 上传 ipa 至 TestFlight">
+<meta name="twitter:description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
+<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg">
+
+
+<link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
+<link href='https://fonts.googleapis.com/css?family=Open+Sans' rel='stylesheet'>
+
+
+
+
+
+<script type="text/javascript">
+  var themeConfig = {
+    fancybox: {
+      enable: false
+    },
+  };
+</script>
+
+
+
+
+  
+
+
+
+    <title> 使用 altool 上传 ipa 至 TestFlight - Starkrimson.init() </title>
+  </head>
+
+  <body>
+    <div id="page">
+      <header id="masthead"><div class="site-header-inner">
+    <h1 class="site-title">
+        <a href="/." class="logo">Starkrimson.init()</a>
+    </h1>
+
+    <nav id="nav-top">
+        
+            <ul id="menu-top" class="nav-top-items">
+                
+                    <li class="menu-item">
+                        <a href="/projects">
+                            
+                            
+                                Projects
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/archives">
+                            
+                            
+                                Archives
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/about">
+                            
+                            
+                                About
+                            
+                        </a>
+                    </li>
+                
+                    <li class="menu-item">
+                        <a href="/atom.xml">
+                            
+                            
+                                Rss
+                            
+                        </a>
+                    </li>
+                
+            </ul>
+        
+  </nav>
+</div>
+
+      </header>
+      <div id="content">
+        
+    <div id="primary">
+        
+  <article class="post">
+    <header class="post-header">
+      <h1 class="post-title">
+        
+          使用 altool 上传 ipa 至 TestFlight
+        
+      </h1>
+
+      <time class="post-time">
+          Nov 15 2018
+      </time>
+    </header>
+
+
+
+    
+            <div class="post-content">
+            <p>接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。</p>
+<a id="more"></a>
+<h3 id="altool"><a href="#altool" class="headerlink" title="altool"></a>altool</h3><p>altool 是 <code>Application Loader</code> 的命令行工具，可以用来验证和上传 app 文件至 App Store。</p>
+<p>可以在这里找到它：</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool</span><br></pre></td></tr></table></figure>
+<h3 id="添加-shell"><a href="#添加-shell" class="headerlink" title="添加 shell"></a>添加 shell</h3><p>在 <code>xcodebuild -exportArchive</code> 步骤完成后，我们能得到一个打包好的 ipa 文件，注意导出使用的 <code>ExportOptions.plist</code> 里 <code>method</code> 是 <code>app-store</code>。</p>
+<figure class="highlight plist"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>app-store<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
+<p>接下来 <code>Add build step -&gt; Execute Shell</code> 添加一个新的 shell 脚本。</p>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> --upload-app 上传 --validate-app 验证</span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
+<p>altool 可以 <code>--validate-app</code> 验证和 <code>--upload-app</code> 上传，<code>-f</code> 指向 ipa 地址，<code>-u</code> <code>-p</code> 分别是 Apple ID 用户名和密码。这里密码需要注意一下，如果 Apple ID 开启了<strong>双重认证</strong>，需要给该 ID 生成一个 <code>APP-SPECIFIC PASSWORD</code>。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg" alt="image-20181115143746906"></p>
+<p>如果未开启双重认证，那么密码就是 Apple ID 的密码。</p>
+<h3 id="keychain"><a href="#keychain" class="headerlink" title="@keychain"></a>@keychain</h3><p>在 shell 脚本中使用明文密码是不理智的，我们可以使用 Keychain 来保存密码。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNbRwgy1fx8rwjholhj318y0tujxa.jpg" alt="image-20181115144841295"></p>
+<p>在 Keychain Access 新增 item。接下来 <code>-p @keychain:APP_SPECIFIC</code> 指定 item name 就好了。注意 <code>Account Name</code> 需要和 <code>-u username</code> 一致。</p>
+<p>等待一段时间，如下提示就没什么问题了：</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">No errors validating archive at path_to_app.ipa</span><br><span class="line">No errors uploading &apos;path_to_app.ipa&apos;</span><br></pre></td></tr></table></figure>
+<p>反过来如果有错误，也会有很详细的提示。</p>
+<p>也可以使用 <code>--output-format xml</code> 获得更详细的输出。 </p>
+<h3 id="一个小提示"><a href="#一个小提示" class="headerlink" title="一个小提示"></a>一个小提示</h3><p>每次 TestFlight 发布测试都会询问你的 app 有没有使用加密技术，勾选完后才能测试。这时可以在 <code>Info.plist</code> 添加 <code>ITSAppUsesNonExemptEncryption</code> 为 <code>false</code> 就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">&lt;key&gt;ITSAppUsesNonExemptEncryption&lt;/key&gt;&lt;false/&gt;</span><br></pre></td></tr></table></figure>
+<p>下次打包上传，接收到 App Store Connect 邮件 has completed processing 就能自动发布测试了（internal testing）。</p>
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a href="https://help.apple.com/itc/apploader/#/apdATD1E53-D1E1A1303-D1E53A1126" target="_blank" rel="noopener">Apple help - Upload your app binary files with altool</a></p>
+<p><a href="https://stackoverflow.com/questions/35739361/itsappusesnonexemptencryption-export-compliance-while-internal-testing" target="_blank" rel="noopener">Stack Overflow - ITSAppUsesNonExemptEncryption export compliance while internal testing?</a></p>
+
+            </div>
+          
+
+    
+      <footer class="post-footer">
+		
+		<div class="post-tags">
+		  
+			<a href="/tags/Jenkins/">Jenkins</a>
+		  
+			<a href="/tags/Continuous-integration/">Continuous integration</a>
+		  
+			<a href="/tags/altool/">altool</a>
+		  
+		</div>
+		
+
+        
+        
+  <nav class="post-nav">
+    
+    
+      <a class="next" href="/2018/05/29/Jenkins-with-Xcode9/">
+        <span class="next-text nav-default">Jenkins + Xcode9 持续集成环境搭建</span>
+        <span class="prev-text nav-mobile">Next</span>
+        <i class="iconfont icon-right"></i>
+      </a>
+    
+  </nav>
+
+        
+<div id="disqus_thread"></div>
+<script>
+
+/**
+*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+/*
+var disqus_config = function () {
+this.page.url = PAGE_URL;  // Replace PAGE_URL with your page's canonical URL variable
+this.page.identifier = PAGE_IDENTIFIER; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+};
+*/
+(function() { // DON'T EDIT BELOW THIS LINE
+var d = document, s = d.createElement('script');
+s.src = 'https://starkrimson-github-io.disqus.com/embed.js';
+s.setAttribute('data-timestamp', +new Date());
+(d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+<script id="dsq-count-scr" src="//starkrimson-github-io.disqus.com/count.js" async></script>
+
+
+
+      </footer>
+    
+  </article>
+
+    </div>
+
+      </div>
+
+      <footer id="colophon"><span class="copyright-year">
+    
+        &copy;
+    
+        2016 -
+    
+    2018
+    <span class="footer-author">Starkrimson.</span>
+    <span class="power-by">
+    Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
+    </span>
+</span>
+
+      </footer>
+
+      <div class="back-to-top" id="back-to-top">
+        <i class="iconfont icon-up"></i>
+      </div>
+    </div>
+    
+
+
+    
+
+
+
+
+  
+    <script type="text/javascript" src="/lib/jquery/jquery-3.1.1.min.js"></script>
+  
+
+  
+
+    <script type="text/javascript" src="/js/src/theme.js?v=1.1"></script>
+<script type="text/javascript" src="/js/src/bootstrap.js?v=1.1"></script>
+
+  </body>
+</html>
