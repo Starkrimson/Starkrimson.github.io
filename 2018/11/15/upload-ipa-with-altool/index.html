@@ -159,7 +159,7 @@
 <h3 id="添加-shell"><a href="#添加-shell" class="headerlink" title="添加 shell"></a>添加 shell</h3><p>在 <code>xcodebuild -exportArchive</code> 步骤完成后，我们能得到一个打包好的 ipa 文件，注意导出使用的 <code>ExportOptions.plist</code> 里 <code>method</code> 是 <code>app-store</code>。</p>
 <figure class="highlight plist"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>app-store<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>接下来 <code>Add build step -&gt; Execute Shell</code> 添加一个新的 shell 脚本。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> --upload-app 上传 --validate-app 验证</span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> --upload-app 上传 --validate-app 验证</span></span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
 <p>altool 可以 <code>--validate-app</code> 验证和 <code>--upload-app</code> 上传，<code>-f</code> 指向 ipa 地址，<code>-u</code> <code>-p</code> 分别是 Apple ID 用户名和密码。这里密码需要注意一下，如果 Apple ID 开启了<strong>双重认证</strong>，需要给该 ID 生成一个 <code>APP-SPECIFIC PASSWORD</code>。</p>
 <p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg" alt="image-20181115143746906"></p>
 <p>如果未开启双重认证，那么密码就是 Apple ID 的密码。</p>
@@ -245,7 +245,7 @@ s.setAttribute('data-timestamp', +new Date());
     
         2016 -
     
-    2018
+    2019
     <span class="footer-author">Starkrimson.</span>
     <span class="power-by">
     Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
