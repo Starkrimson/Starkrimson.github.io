@@ -43,13 +43,13 @@
 <meta property="og:site_name" content="Starkrimson.init()">
 <meta property="og:description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
 <meta property="og:locale" content="default">
-<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg">
-<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNbRwgy1fx8rwjholhj318y0tujxa.jpg">
-<meta property="og:updated_time" content="2018-11-15T07:40:02.595Z">
+<meta property="og:image" content="https://starkrimson.github.io/images/upload-ipa-with-altool/APP-SPECIFIC_PASSWORD.jpg">
+<meta property="og:image" content="https://starkrimson.github.io/images/upload-ipa-with-altool/keychain_APP_SPECIFIC.png">
+<meta property="og:updated_time" content="2019-06-29T04:20:48.458Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 altool 上传 ipa 至 TestFlight">
 <meta name="twitter:description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
-<meta name="twitter:image" content="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg">
+<meta name="twitter:image" content="https://starkrimson.github.io/images/upload-ipa-with-altool/APP-SPECIFIC_PASSWORD.jpg">
 
 
 <link rel="stylesheet" type="text/css" href="/css/style.css?v=1.1" />
@@ -159,12 +159,12 @@
 <h3 id="添加-shell"><a href="#添加-shell" class="headerlink" title="添加 shell"></a>添加 shell</h3><p>在 <code>xcodebuild -exportArchive</code> 步骤完成后，我们能得到一个打包好的 ipa 文件，注意导出使用的 <code>ExportOptions.plist</code> 里 <code>method</code> 是 <code>app-store</code>。</p>
 <figure class="highlight plist"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>app-store<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>接下来 <code>Add build step -&gt; Execute Shell</code> 添加一个新的 shell 脚本。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> --upload-app 上传 --validate-app 验证</span></span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span> --upload-app 上传 --validate-app 验证</span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
 <p>altool 可以 <code>--validate-app</code> 验证和 <code>--upload-app</code> 上传，<code>-f</code> 指向 ipa 地址，<code>-u</code> <code>-p</code> 分别是 Apple ID 用户名和密码。这里密码需要注意一下，如果 Apple ID 开启了<strong>双重认证</strong>，需要给该 ID 生成一个 <code>APP-SPECIFIC PASSWORD</code>。</p>
-<p><img src="https://ws2.sinaimg.cn/large/006tNbRwgy1fx8rwj3nt9j31jy0asmyo.jpg" alt="image-20181115143746906"></p>
+<p><img src="/images/upload-ipa-with-altool/APP-SPECIFIC_PASSWORD.jpg" alt="image-20181115143746906"></p>
 <p>如果未开启双重认证，那么密码就是 Apple ID 的密码。</p>
 <h3 id="keychain"><a href="#keychain" class="headerlink" title="@keychain"></a>@keychain</h3><p>在 shell 脚本中使用明文密码是不理智的，我们可以使用 Keychain 来保存密码。</p>
-<p><img src="https://ws1.sinaimg.cn/large/006tNbRwgy1fx8rwjholhj318y0tujxa.jpg" alt="image-20181115144841295"></p>
+<p><img src="/images/upload-ipa-with-altool/keychain_APP_SPECIFIC.png" alt="image-20181115144841295"></p>
 <p>在 Keychain Access 新增 item。接下来 <code>-p @keychain:APP_SPECIFIC</code> 指定 item name 就好了。注意 <code>Account Name</code> 需要和 <code>-u username</code> 一致。</p>
 <p>等待一段时间，如下提示就没什么问题了：</p>
 <figure class="highlight plain"><table><tr><td class="code"><pre><span class="line">No errors validating archive at path_to_app.ipa</span><br><span class="line">No errors uploading &apos;path_to_app.ipa&apos;</span><br></pre></td></tr></table></figure>
