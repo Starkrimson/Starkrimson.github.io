@@ -45,7 +45,7 @@
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://starkrimson.github.io/images/upload-ipa-with-altool/APP-SPECIFIC_PASSWORD.jpg">
 <meta property="og:image" content="https://starkrimson.github.io/images/upload-ipa-with-altool/keychain_APP_SPECIFIC.png">
-<meta property="og:updated_time" content="2019-06-29T04:20:48.000Z">
+<meta property="og:updated_time" content="2020-04-24T06:35:01.087Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="使用 altool 上传 ipa 至 TestFlight">
 <meta name="twitter:description" content="接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。">
@@ -153,13 +153,14 @@
             <div class="post-content">
             <p>接上一篇，Jenkins 构建完成后，使用 altool 将 ipa 上传至 TestFlight。</p>
 <a id="more"></a>
-<h3 id="altool"><a href="#altool" class="headerlink" title="altool"></a>altool</h3><p>altool 是 <code>Application Loader</code> 的命令行工具，可以用来验证和上传 app 文件至 App Store。</p>
+<h3 id="altool"><a href="#altool" class="headerlink" title="altool"></a>altool</h3><p><strong>Xcode 11 之后已不再提供 <code>Application Loader</code>，改用 <code>xcrun altool</code> 上传 ipa。</strong></p>
+<p><del>altool 是 <code>Application Loader</code> 的命令行工具，可以用来验证和上传 app 文件至 App Store。</del></p>
 <p>可以在这里找到它：</p>
 <figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">/Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/altool</span><br></pre></td></tr></table></figure>
 <h3 id="添加-shell"><a href="#添加-shell" class="headerlink" title="添加 shell"></a>添加 shell</h3><p>在 <code>xcodebuild -exportArchive</code> 步骤完成后，我们能得到一个打包好的 ipa 文件，注意导出使用的 <code>ExportOptions.plist</code> 里 <code>method</code> 是 <code>app-store</code>。</p>
 <figure class="highlight plist"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">string</span>&gt;</span>app-store<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br></pre></td></tr></table></figure>
 <p>接下来 <code>Add build step -&gt; Execute Shell</code> 添加一个新的 shell 脚本。</p>
-<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line">cd /Applications/Xcode.app/Contents/Applications/Application\ Loader.app/Contents/Frameworks/ITunesSoftwareService.framework/Versions/A/Support/</span><br><span class="line"></span><br><span class="line"><span class="meta">#</span><span class="bash"> --upload-app 上传 --validate-app 验证</span></span><br><span class="line">./altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="code"><pre><span class="line"><span class="meta">#</span><span class="bash"> --upload-app 上传 --validate-app 验证</span></span><br><span class="line">xcrun altool --upload-app \</span><br><span class="line">-f path_to_app.ipa \</span><br><span class="line">-u email@sample.com \</span><br><span class="line">-p @keychain:APP_SPECIFIC \</span><br><span class="line">--output-format normal</span><br></pre></td></tr></table></figure>
 <p>altool 可以 <code>--validate-app</code> 验证和 <code>--upload-app</code> 上传，<code>-f</code> 指向 ipa 地址，<code>-u</code> <code>-p</code> 分别是 Apple ID 用户名和密码。这里密码需要注意一下，如果 Apple ID 开启了<strong>双重认证</strong>，需要给该 ID 生成一个 <code>APP-SPECIFIC PASSWORD</code>。</p>
 <p><img src="/images/upload-ipa-with-altool/APP-SPECIFIC_PASSWORD.jpg" alt="image-20181115143746906"></p>
 <p>如果未开启双重认证，那么密码就是 Apple ID 的密码。</p>
@@ -245,7 +246,7 @@ s.setAttribute('data-timestamp', +new Date());
     
         2016 -
     
-    2019
+    2020
     <span class="footer-author">Starkrimson.</span>
     <span class="power-by">
     Powered by <a class="hexo-link" href="https://hexo.io/">Hexo</a> with Theme <a class="theme-link" href="https://github.com/frostfan/hexo-theme-polarbear">Polar Bear</a>
