@@ -101,25 +101,6 @@
   </entry>
   
   <entry>
-    <title>ReadOn 1.4 发布！性能优化，提高用户体验。</title>
-    <link href="https://starkrimson.github.io/2017/11/02/ReadOnReleaseNote/"/>
-    <id>https://starkrimson.github.io/2017/11/02/ReadOnReleaseNote/</id>
-    <published>2017-11-02T04:00:00.000Z</published>
-    <updated>2022-04-07T04:04:05.530Z</updated>
-    
-    <content type="html"><![CDATA[<p><a href="https://itunes.apple.com/cn/app/id1212717344">ReadOn</a> 1.4 已发布。</p><span id="more"></span><hr><h3 id="ReadOn-1-4-发布！性能优化，提高用户体验。"><a href="#ReadOn-1-4-发布！性能优化，提高用户体验。" class="headerlink" title="ReadOn 1.4 发布！性能优化，提高用户体验。"></a>ReadOn 1.4 发布！性能优化，提高用户体验。</h3><blockquote><p>2017-11-02</p></blockquote><ul><li><strong>优化界面逻辑，页面滑动更流畅</strong></li></ul><hr><h3 id="ReadOn-1-3-0-发布！更换主题，切换字体"><a href="#ReadOn-1-3-0-发布！更换主题，切换字体" class="headerlink" title="ReadOn 1.3.0 发布！更换主题，切换字体"></a>ReadOn 1.3.0 发布！更换主题，切换字体</h3><blockquote><p>2017-10-28</p></blockquote><ul><li><p><strong>暗色主题</strong></p><p>在设置中可以一键切换主题，未来将加入更多颜色主题。</p></li><li><p><strong>增强阅读外观选项</strong></p><p>现在阅读外观选项不止能够调整字体大小，还能切换字体，选择主题。</p><p>but，小抱歉上面提到的功能需要内购升级。</p></li><li><p><strong>单元格侧滑手势</strong></p><p>现在向左侧滑单元格，就能呼出<strong>已读</strong>、<strong>收藏</strong>和<strong>分享</strong>等常用菜单按钮。</p></li><li><p><strong>移除所有广告</strong></p><p>App 内所有广告都已移除。</p></li></ul><hr><h3 id="ReadOn-1-2-3-发布！适配-iPhone-X"><a href="#ReadOn-1-2-3-发布！适配-iPhone-X" class="headerlink" title="ReadOn 1.2.3 发布！适配 iPhone X"></a>ReadOn 1.2.3 发布！适配 iPhone X</h3><blockquote><p>2017-10-17</p></blockquote><ul><li><p><strong>适配 iPhone X</strong></p><p>为即将到来的 iPhone X 做准备。</p></li><li><p><strong>增加设置项</strong></p><p>增加了多个设置项，包括「标记全部已读需要确认」、「隐藏已读的文章」和「启动时更新文章」。</p></li><li><p><strong>修复上个版本「标记已读」无效 bug</strong></p><p>上个版本写错了一个参数，导致「标记已读」失效或者导致 app crash。1.2.3 版本将修复该功能。</p></li></ul><hr><h3 id="ReadOn-1-2-2-发布！统一管理源"><a href="#ReadOn-1-2-2-发布！统一管理源" class="headerlink" title="ReadOn 1.2.2 发布！统一管理源"></a>ReadOn 1.2.2 发布！统一管理源</h3><blockquote><p>2017-10-12</p></blockquote><ul><li><p><strong>管理订阅源</strong></p><p>在「管理」界面，可以查看最近添加或移除的源；统一移动源到其他文件夹或者移除它们。</p></li><li><p><strong>调整阅读字体大小</strong></p><p>在阅读界面，点击<strong>「阅读外观选项」</strong>，可以调整字体大小。该功能需要内购<strong>升级</strong>。</p></li><li><p><strong>去除广告</strong></p><p>同样包含在<strong>升级</strong>选项，升级后可以移除 app 内的广告，获得纯粹的阅读体验。</p></li></ul><hr><h3 id="ReadOn-1-2-1-发布！VoiceOver-下体验优化"><a href="#ReadOn-1-2-1-发布！VoiceOver-下体验优化" class="headerlink" title="ReadOn 1.2.1 发布！VoiceOver 下体验优化"></a>ReadOn 1.2.1 发布！VoiceOver 下体验优化</h3><blockquote><p>2017-09-23</p></blockquote><ul><li><p><strong>VoiceOver 下体验优化</strong></p><p>以前忽视了 VoiceOver，根据 App Stroe 的留言反馈，我体验了下使用 VoiceOver 操作 ReadOn ，确实不是很好。这个版本优化了很多这方面的体验，相信可以尽可能地无障碍使用 ReadOn 阅读。</p></li><li><p><strong>搜索更多的源</strong></p><p>现在可以搜索到更多的源了，帮你发现更多有趣的内容。</p></li><li><p><strong>增加右侧栏</strong></p><p>😄全新的设计，还在摸索中，目前右侧栏用于投放广告。可能会引起一些用户的反感，还是希望大家能支持一下独立开发者。</p></li></ul><hr><h3 id="ReadOn-1-2-发布！新增同步订阅源功能"><a href="#ReadOn-1-2-发布！新增同步订阅源功能" class="headerlink" title="ReadOn 1.2 发布！新增同步订阅源功能"></a>ReadOn 1.2 发布！新增同步订阅源功能</h3><blockquote><p>2017-09-05</p></blockquote><ul><li><p><strong>一个神奇的按钮</strong></p><p>「<strong>设置</strong>」增加了一个按钮「<strong>使用 iCloud 同步</strong>」。开启后可以同步你的订阅源和已收藏的文章到 iCloud 中。在其他同样登录了该 Apple ID 的设备中，也能查看 iCloud 上已同步的内容。</p><p>注：使用该功能的前提是，系统设置中已登录了 Apple ID，并且 iCloud 是可用的。</p></li><li><p><strong>「添加」页优化</strong></p><p>增加搜索源时的一些提示，当网络问题或者没有搜索到结果时都会有些提示。避免原来添加页一片空白的尴尬。</p><p>搜索 api 可能没有收录所有的源，这时手动输入完整的源 url 也可以添加该源。</p></li><li><p><strong>其他内容更新</strong></p><p>同样在「<strong>设置</strong>」里，可以<strong>清理缓存</strong>和开启<strong>自动清理</strong>功能。</p></li></ul>]]></content>
-    
-    
-    <summary type="html">&lt;p&gt;&lt;a href=&quot;https://itunes.apple.com/cn/app/id1212717344&quot;&gt;ReadOn&lt;/a&gt; 1.4 已发布。&lt;/p&gt;</summary>
-    
-    
-    
-    
-    <category term="ReadOn Release" scheme="https://starkrimson.github.io/tags/ReadOn-Release/"/>
-    
-  </entry>
-  
-  <entry>
     <title>了解 VoiceOver，支持 VoiceOver！</title>
     <link href="https://starkrimson.github.io/2017/09/23/2017-09-23VoiceOver/"/>
     <id>https://starkrimson.github.io/2017/09/23/2017-09-23VoiceOver/</id>
