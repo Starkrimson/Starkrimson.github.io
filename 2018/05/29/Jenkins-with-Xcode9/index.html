@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Jenkins + Xcode9 持续集成环境搭建">
+<meta property="og:url" content="https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/index.html">
+<meta property="og:site_name" content=".init()">
+<meta property="og:description" content="最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1frr84t10nfj317y0vsjv2.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1frr84rhaq6j317y09i0ti.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frr84ugauyj31820bwq4n.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1frr84thlr7j318413ated.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frr84s2xghj317u16an3m.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1frukz16h83j30tw09e3zn.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84pmj21j315e0f8gnr.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84tyuj5j30sk0d2tae.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84q4utxj317u0fswg3.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1frr84sl33bj317y0uwdj9.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1frr84qm8mtj31120fe769.jpg">
+<meta property="og:image" content="https://ws3.sinaimg.cn/large/006tNc79gy1fsxjm3xge9j30wm0c4gmo.jpg">
+<meta property="og:image" content="https://ws2.sinaimg.cn/large/006tNc79gy1fsxjm4steoj317i0c2mzi.jpg">
+<meta property="og:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1fsxjm5qj7ij316e08sq42.jpg">
+<meta property="og:image" content="https://ws1.sinaimg.cn/large/006tNc79gy1frr84r0kdnj31800to0vw.jpg">
+<meta property="article:published_time" content="2018-05-29T02:17:00.000Z">
+<meta property="article:modified_time" content="2022-04-07T04:04:05.529Z">
+<meta property="article:author" content="Starkrimson">
+<meta property="article:tag" content="Jenkins">
+<meta property="article:tag" content="Continuous integration">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://ws4.sinaimg.cn/large/006tNc79gy1frr84t10nfj317y0vsjv2.jpg">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Jenkins + Xcode9 持续集成环境搭建</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title=".init()" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post" href="/2018/11/15/upload-ipa-with-altool/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2018/01/10/PithyCodes/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&text=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&is_video=false&description=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Jenkins + Xcode9 持续集成环境搭建&body=Check out this article: https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&name=Jenkins + Xcode9 持续集成环境搭建&description=&lt;p&gt;最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&t=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Jenkins"><span class="toc-number">1.</span> <span class="toc-text">安装 Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">初始化配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85%E8%AE%BF%E9%97%AE-Jenkins"><span class="toc-number">3.</span> <span class="toc-text">局域网内访问 Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-x2F-%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">创建&#x2F;配置项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Git-Parameter"><span class="toc-number">5.</span> <span class="toc-text">配置 Git Parameter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-Bundle-ID-%E5%92%8C-Provisioning-Profile-%E7%94%9F%E6%88%90-ExportOptions-plist"><span class="toc-number">6.</span> <span class="toc-text">获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">7.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0-ipa-%E5%88%B0%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0"><span class="toc-number">8.</span> <span class="toc-text">上传 ipa 到测试平台</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-ios-ipa-server"><span class="toc-number">8.1.</span> <span class="toc-text">安装 ios-ipa-server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-ios-ipa-server"><span class="toc-number">8.2.</span> <span class="toc-text">开启 ios-ipa-server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E5%AF%BC%E5%87%BA%E7%9A%84-ipa-%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E5%88%B0-ios-ipa-server-%E7%9B%AE%E5%BD%95"><span class="toc-number">8.3.</span> <span class="toc-text">将导出的 ipa 文件复制到 ios-ipa-server 目录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build-Triggers"><span class="toc-number">9.</span> <span class="toc-text">Build Triggers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Trigger-builds-remotely"><span class="toc-number">9.1.</span> <span class="toc-text">Trigger builds remotely</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Poll-SCM"><span class="toc-number">9.1.1.</span> <span class="toc-text">Poll SCM</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF%E5%92%8C%E8%A7%A3%E5%86%B3"><span class="toc-number">10.</span> <span class="toc-text">可能出现的错误和解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pod-command-not-found"><span class="toc-number">10.1.</span> <span class="toc-text">pod: command not found</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xcode-select-error-tool-%E2%80%98xcodebuild%E2%80%99-requires-Xcode"><span class="toc-number">10.2.</span> <span class="toc-text">xcode-select: error: tool ‘xcodebuild’ requires Xcode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#error-exportArchive-%E2%80%9Cxx-app%E2%80%9D-requires-a-provisioning-profile-Jenkins"><span class="toc-number">10.3.</span> <span class="toc-text">error: exportArchive: “xx.app” requires a provisioning profile Jenkins</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E5%A4%87%E4%BB%BD-Jenkins-%E9%85%8D%E7%BD%AE"><span class="toc-number">11.</span> <span class="toc-text">最后，备份 Jenkins 配置</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Jenkins + Xcode9 持续集成环境搭建
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Starkrimson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-05-29T02:17:00.000Z" itemprop="datePublished">2018-05-29</time>
+        
+        (Updated: <time datetime="2022-04-07T04:04:05.529Z" itemprop="dateModified">2022-04-07</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Continuous-integration/" rel="tag">Continuous integration</a>, <a class="tag-link-link" href="/tags/Jenkins/" rel="tag">Jenkins</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。</p>
+<span id="more"></span>
+
+
+
+<h3 id="安装-Jenkins"><a href="#安装-Jenkins" class="headerlink" title="安装 Jenkins"></a>安装 Jenkins</h3><p>推荐通过 homebrew 安装，也可以通过下载 pkg 包安装（<a target="_blank" rel="noopener" href="https://jenkins.io/download/thank-you-downloading-osx-installer/">Jenkins OSX Installer</a>），不过还是 brew 方便些。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew install jenkins</span><br></pre></td></tr></table></figure>
+
+<p>如果没安装 Java，需要先装一下：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew cask install caskroom/versions/java8</span><br></pre></td></tr></table></figure>
+
+<h3 id="初始化配置"><a href="#初始化配置" class="headerlink" title="初始化配置"></a>初始化配置</h3><p>这里提一下关键的点，就不一一截图细说了。</p>
+<p>浏览器中打开 <a target="_blank" rel="noopener" href="http://localhost:8080/">http://localhost:8080</a></p>
+<p>第一次打开会提示去取 <code>initialAdminPassword</code>（一行红字标明路径，很明显）里的密码。<code>cat path/to/initialAdminPassword</code> 拿到后贴到输入框中 next。</p>
+<p>→ 安装推荐的插件 → 创建用户。完成后重新登录 Jenkins。</p>
+<p>接下来在 Manage Jenkins -&gt; Manage Plugins -&gt; Available 安装一些需要的插件：</p>
+<ul>
+<li><p>Xcode integration</p>
+</li>
+<li><p><del>Keychains and Provisioning Profiles Management</del></p>
+<p>可能一些教程推荐装这个插件，然后配置一下 login.keychain 填一些证书信息什么的就很方便导出 <code>.ipa</code> 了。<strong>but</strong>，很遗憾 Xcode9 无法读取 login.keychain 的信息，现在导出需要提供一份 <code>ExportOptions.plist</code>，后面再具体说怎么操作。</p>
+</li>
+<li><p>GIT plugin</p>
+</li>
+<li><p>Git Parameter</p>
+</li>
+</ul>
+<h3 id="局域网内访问-Jenkins"><a href="#局域网内访问-Jenkins" class="headerlink" title="局域网内访问 Jenkins"></a>局域网内访问 Jenkins</h3><p>使用 brew 安装 Jenkins 默认将 <code>httpListenAddress</code> 设置为 <code>127.0.0.1</code>，本机可以通过 <code>localhost:8080</code> 访问，但局域网内无法通过 <code>本机 ip:8080</code> 访问。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">~/Library/LaunchAgents/homebrew.mxcl.jenkins.plist</span><br><span class="line">/usr/local/opt/jenkins/homebrew.mxcl.jenkins.plist</span><br></pre></td></tr></table></figure>
+
+<p>将两个 plist 文件中 <code>httpListenAddress</code> 改为 0.0.0.0 重启 Jenkins 即可。</p>
+<p>重启 Jenkins 可以执行：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">brew services restart jenkins</span><br></pre></td></tr></table></figure>
+
+<p>或者在浏览器里：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://localhost:8080/restart</span><br></pre></td></tr></table></figure>
+
+<h3 id="创建-x2F-配置项目"><a href="#创建-x2F-配置项目" class="headerlink" title="创建&#x2F;配置项目"></a>创建&#x2F;配置项目</h3><p>Net Item → 输入 item name → Freestyle project → OK</p>
+<p>Source Code Management 选择 Git，并填入相应的信息。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1frr84t10nfj317y0vsjv2.jpg" alt="Git 信息"></p>
+<p>切换到 Build 栏，按顺序添加 build step。</p>
+<p>由于我们使用 Cocoapods，首先安装 pod 的第三方库。</p>
+<p>点击 Add build step → Execute shell</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1frr84rhaq6j317y09i0ti.jpg" alt="add execute shell"></p>
+<p>切换的 Podfile 文件目录下，执行 pod install 命令</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash -l</span></span><br><span class="line">cd $&#123;JOB_NAME&#125;</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">pod install --verbose --no-repo-update</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frr84ugauyj31820bwq4n.jpg" alt="pod install"></p>
+<p>接下来添加另一个 build step，这次选择的是 Xcode。</p>
+<p>使用 Cocoapods，Target 这栏不用填，点击右侧的 Settings，按截图设置下。</p>
+<p><img src="https://ws1.sinaimg.cn/large/006tNc79gy1frr84thlr7j318413ated.jpg" alt="Xcode general settings"></p>
+<p>Code signing &amp; OS X keychain options 可以不设置。</p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frr84s2xghj317u16an3m.jpg" alt="Xcode advanced options"></p>
+<p>这里有个注意的地方，在 Xcode9 以前，可以勾选底下的 Pack application, build and sign .ipa?，并设置些相关的信息就能导出 .ipa。但是使用 Xcode9 会报这样的错误：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&quot;Error Domain=IDEProvisioningErrorDomain Code=9 \&quot;\&quot;MyApp.app\&quot; requires a provisioning profile.\&quot; UserInfo=&#123;NSLocalizedDescription=\&quot;MyApp.app\&quot; requires a provisioning profile., NSLocalizedRecoverySuggestion=Add a profile to the \&quot;provisioningProfiles\&quot; dictionary in your Export Options property list.&#125;&quot;</span><br></pre></td></tr></table></figure>
+<p>大概意思就是需要指定 ExportOptions.plist，这个文件内容大概是这样的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>compileBitcode<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">false</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>ad-hoc<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>provisioningProfiles<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">		<span class="tag">&lt;<span class="name">key</span>&gt;</span>⚠️ Bundle ID <span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">                <span class="tag">&lt;<span class="name">string</span>&gt;</span>⚠️ Provisioning Profile <span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>signingCertificate<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>iPhone Distribution<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>signingStyle<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>manual<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>stripSwiftSymbols<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>teamID<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>⚠️ teamID <span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>thinning<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span><span class="symbol">&amp;lt;</span>none<span class="symbol">&amp;gt;</span><span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>可以拷贝然后修改一下相应的 key value。不过一个简单获取这个文件的方式是：手动使用 Xcode9 打包，在导出 <code>.ipa</code> 的文件夹里应该有 4 个文件，其中一个就是 <code>ExportOptions.plist</code>。可以把它拷贝到 workspace 目录下。</p>
+<p>☕️ 补充：如果 Signing 勾选了 Automatically manage signing，就简单多了，它的 <code>exportOptons.plist</code> 是这样的：</p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version=<span class="string">&quot;1.0&quot;</span> encoding=<span class="string">&quot;UTF-8&quot;</span>?&gt;</span></span><br><span class="line"><span class="meta">&lt;!DOCTYPE <span class="keyword">plist</span> <span class="keyword">PUBLIC</span> <span class="string">&quot;-//Apple//DTD PLIST 1.0//EN&quot;</span> <span class="string">&quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">plist</span> <span class="attr">version</span>=<span class="string">&quot;1.0&quot;</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">dict</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>compileBitcode<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">false</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>method<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>ad-hoc<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>signingStyle<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>automatic<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>stripSwiftSymbols<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">true</span>/&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>teamID<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span>⚠️ teamID<span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">key</span>&gt;</span>thinning<span class="tag">&lt;/<span class="name">key</span>&gt;</span></span><br><span class="line">	<span class="tag">&lt;<span class="name">string</span>&gt;</span><span class="symbol">&amp;lt;</span>none<span class="symbol">&amp;gt;</span><span class="tag">&lt;/<span class="name">string</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">dict</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">plist</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1frukz16h83j30tw09e3zn.jpg" alt="image-20180531155611396"></p>
+<p>在 Xcode step 下面再添加一个 Execute shell</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild -exportArchive -archivePath $&#123;WORKSPACE&#125;/build/$&#123;JOB_NAME&#125;.xcarchive -exportPath $&#123;JENKINS_HOME&#125;/jobs/$&#123;JOB_NAME&#125;/builds/$&#123;BUILD_NUMBER&#125;/archive -exportOptionsPlist $&#123;WORKSPACE&#125;/ExportOptions.plist</span><br></pre></td></tr></table></figure>
+
+<p><code>-exportOptionsPlist $&#123;WORKSPACE&#125;/ExportOptions.plist</code> 这个选项就是指定刚刚拷贝到 workspace 的 plist。</p>
+<p>到这里配置就完成了。回到 item 页面，点击 Build Now。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frr84pmj21j315e0f8gnr.jpg" alt="Build Now"></p>
+<p>左侧就能看到 building 的项目了，点击 Console Output 可以看到 log 记录，如无意外最后输出 <code>Finished: SUCCESS</code>。</p>
+<p>可以在两个目录找到 <code>.xcarchive</code> 和 <code>.ipa</code> :</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/Users/yourname/.jenkins/workspace/jobName/build/jobName.xcarchive</span><br><span class="line">/Users/yourname/.jenkins/jobs/jobName/builds/buildNumber/archive</span><br></pre></td></tr></table></figure>
+
+<h3 id="配置-Git-Parameter"><a href="#配置-Git-Parameter" class="headerlink" title="配置 Git Parameter"></a>配置 Git Parameter</h3><p>有时候想指定打某个分支的包，用 Git Parameter 就很方便了。</p>
+<p>回到配置页最顶部，勾选 This project is parameterized，选择 Git Parameter</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frr84tyuj5j30sk0d2tae.jpg" alt="add parameter"></p>
+<p>￼￼<img src="https://ws2.sinaimg.cn/large/006tNc79gy1frr84q4utxj317u0fswg3.jpg" alt="Git Parameter 配置"></p>
+<p>Name 后面需要用到，Type 这里就选 Branch 了。</p>
+<p>再到 Source Code Management，修改一下设置。</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1frr84sl33bj317y0uwdj9.jpg" alt="Source code management"></p>
+<p>红框部分修改为刚刚设置的 Name，以 <code>$</code> 开头。</p>
+<p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1frr84qm8mtj31120fe769.jpg" alt="Build with Parameters"></p>
+<p>这时 Build Now 就变成 Build with Parameters 了。右侧选择分支，然后开 build。</p>
+<p><del>这个插件适合手动构建，如果设置了轮询自动构建，会因为找不到分支而构建失败，有什么好的方案告诉我啊。</del></p>
+<p><img src="https://ws3.sinaimg.cn/large/006tNc79gy1fsxjm3xge9j30wm0c4gmo.jpg" alt="image-20180703103936525"></p>
+<p>点击右侧的 Advanced，有一栏「Default Value」可以指定默认的分支。这样轮询构建的时候就会自动选择这个分支。</p>
+<h3 id="获取-Bundle-ID-和-Provisioning-Profile-生成-ExportOptions-plist"><a href="#获取-Bundle-ID-和-Provisioning-Profile-生成-ExportOptions-plist" class="headerlink" title="获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist"></a>获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist</h3><p>☕️ 补充：Signing 勾选了 Automatically manage signing 可以不操作这步。</p>
+<p>现在可以指定任意的分支打包了，但可能每个分支的 Bundle ID 或者 Provisioning Profile 跟之前准备的 exportOptions 不一致，这样就得准备多一份 ExportOptions.plist。就写个脚本来获取吧。</p>
+<p>方案是这样的，先准备一份 exportOptions 模版，通过 <code>xcodebuild -showBuildSettings</code> 获取 Bundle ID 和 Provisioning Profile，替换模版生成一个新的 <code>.plist</code>，export 命令指定这个新的 <code>.plist</code> 就好了。</p>
+<p>在 <code>xcodebuild -exportArchive</code> 前 Add execute shell</p>
+<p>这里就玩玩 Swift 脚本了，在文本开头加上 <code>!/usr/bin/env swift</code></p>
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line">#<span class="operator">!/</span>usr<span class="operator">/</span>bin<span class="operator">/</span>env swift</span><br><span class="line"></span><br><span class="line"><span class="comment">// 这是一段 Swift 写的脚本（好玩）</span></span><br><span class="line"><span class="comment">// 作用是从 xcodebuild 中获取 bundle id 和 provisioning profile</span></span><br><span class="line"><span class="comment">// 输出新的 export options plist，在导出 ipa 时需要用到。</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> Foundation</span><br><span class="line"></span><br><span class="line"><span class="keyword">func</span> <span class="title function_">executeShell</span>(<span class="keyword">_</span> <span class="params">arguments</span>: <span class="type">String</span>...) -&gt; (status: <span class="type">Int32</span>, output: <span class="type">String</span>) &#123;</span><br><span class="line">    <span class="keyword">let</span> process <span class="operator">=</span> <span class="type">Process</span>()</span><br><span class="line">    process.launchPath <span class="operator">=</span> <span class="string">&quot;/usr/bin/env&quot;</span></span><br><span class="line">    process.arguments <span class="operator">=</span> arguments</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> pipe <span class="operator">=</span> <span class="type">Pipe</span>()</span><br><span class="line">    process.standardOutput <span class="operator">=</span> pipe</span><br><span class="line"></span><br><span class="line">    process.launch()</span><br><span class="line">    process.waitUntilExit()</span><br><span class="line"></span><br><span class="line">    <span class="keyword">let</span> data <span class="operator">=</span> pipe.fileHandleForReading.readDataToEndOfFile()</span><br><span class="line">    <span class="keyword">let</span> output <span class="operator">=</span> <span class="type">String</span>(data: data, encoding: .utf8)</span><br><span class="line">    <span class="keyword">return</span> (process.terminationStatus, output <span class="operator">??</span> <span class="string">&quot;&quot;</span>)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> profiles <span class="operator">=</span> executeShell(<span class="string">&quot;xcodebuild&quot;</span>, <span class="string">&quot;-showBuildSettings&quot;</span>).output</span><br><span class="line">    .components(separatedBy: <span class="string">&quot;<span class="subst">\n</span>&quot;</span>)</span><br><span class="line">    .filter &#123;</span><br><span class="line">        <span class="variable">$0</span>.range(of: <span class="string">&quot;PRODUCT_BUNDLE_IDENTIFIER&quot;</span>) <span class="operator">!=</span> <span class="literal">nil</span> <span class="operator">||</span> <span class="variable">$0</span>.range(of: <span class="string">&quot;PROVISIONING_PROFILE_SPECIFIER&quot;</span>) <span class="operator">!=</span> <span class="literal">nil</span></span><br><span class="line">    &#125;</span><br><span class="line">    .map &#123;</span><br><span class="line">        <span class="variable">$0</span>.replacingOccurrences(of: <span class="string">&quot; &quot;</span>, with: <span class="string">&quot;&quot;</span>).components(separatedBy: <span class="string">&quot;=&quot;</span>).last <span class="operator">??</span> <span class="string">&quot;&quot;</span></span><br><span class="line">    &#125;</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;profiles: <span class="subst">\(profiles)</span>&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">let</span> directoryPath <span class="operator">=</span> <span class="string">&quot;/Users/yourname/Documents/ExportOptions/&quot;</span></span><br><span class="line"><span class="keyword">let</span> options <span class="operator">=</span> <span class="type">NSMutableDictionary</span>(contentsOfFile: directoryPath <span class="operator">+</span> <span class="string">&quot;ExportOptions_sample.plist&quot;</span>)</span><br><span class="line">options<span class="operator">?</span>[<span class="string">&quot;provisioningProfiles&quot;</span>] <span class="operator">=</span> [profiles[<span class="number">0</span>] : profiles[<span class="number">1</span>]]</span><br><span class="line">options<span class="operator">?</span>.write(toFile: directoryPath <span class="operator">+</span> <span class="string">&quot;ExportOptions.plist&quot;</span>, atomically: <span class="literal">true</span>)</span><br></pre></td></tr></table></figure>
+
+<p>后面的 <code>-exportOptionsPlist</code> 指定 <code>directoryPath/ExportOptions.plist</code> 。</p>
+<h3 id="单元测试"><a href="#单元测试" class="headerlink" title="单元测试"></a>单元测试</h3><p>采用 xcodebuild test + <a target="_blank" rel="noopener" href="https://github.com/supermarin/xcpretty">xcpretty</a> 方案。</p>
+<p>xcpretty 可以将 xcodebuild test 输出内容格式化，并且可以导出 xml、json 或者 html。</p>
+<p>格式化的内容大概是这样子的：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">   ✓ testExample (0.001 seconds)</span><br><span class="line">   ◷ testPerformanceExample measured (0.000 seconds)</span><br><span class="line">   ✓ testPerformanceExample (0.362 seconds)</span><br><span class="line">   ✗ testString, XCTAssertTrue failed - 返回不是「你好世界」，测试不通过</span><br><span class="line"></span><br><span class="line">testString, XCTAssertTrue failed - 返回不是「你好世界」，测试不通过</span><br><span class="line">xx.swift:47</span><br><span class="line">   func testString() &#123;</span><br><span class="line">       XCTAssert(viewCtrl.returnAString() == &quot;你好世界&quot;, &quot;返回不是「你好世界」，测试不通过&quot;)</span><br><span class="line">   &#125;</span><br></pre></td></tr></table></figure>
+
+<p>首先安装 xcpretty ：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">gem install xcpretty</span><br></pre></td></tr></table></figure>
+
+<p>Add execute shell:</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">xcodebuild test \</span><br><span class="line">-workspace $&#123;JOB_NAME&#125;.xcworkspace \</span><br><span class="line">-scheme $&#123;JOB_NAME&#125; \</span><br><span class="line">-destination &#x27;platform=iOS Simulator,name=iPhone 7&#x27; \</span><br><span class="line">| xcpretty -s -r html \</span><br><span class="line">--output $&#123;JENKINS_HOME&#125;/jobs/$&#123;JOB_NAME&#125;/builds/$&#123;BUILD_NUMBER&#125;/tests.html \</span><br><span class="line">&amp;&amp; exit $&#123;PIPESTATUS[0]&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>&amp;&amp; exit $&#123;PIPESTATUS[0]&#125;</code> 使用 exit 参数帮助 Jenkins 确定是否失败。</p>
+<p>可以把这段 shell 放在 pod install 之后，测试失败后 build 失败而不继续 archive。</p>
+<h3 id="上传-ipa-到测试平台"><a href="#上传-ipa-到测试平台" class="headerlink" title="上传 ipa 到测试平台"></a>上传 ipa 到测试平台</h3><p>你可以找到平台提供的集成文档，例如 <a target="_blank" rel="noopener" href="http://blog.fir.im/jenkins/">fir.im Jenkins 插件使用方法</a> 或者 <a target="_blank" rel="noopener" href="https://www.pgyer.com/doc/view/jenkins_ios">蒲公英 - 使用 Jenkins 实现持续集成 (iOS)</a></p>
+<p>这里演示使用 <a target="_blank" rel="noopener" href="https://github.com/bumaociyuan/ios-ipa-server">ios-ipa-server</a> 搭建「本地自签名 https 服务器，快速安装 ipa」。</p>
+<h4 id="安装-ios-ipa-server"><a href="#安装-ios-ipa-server" class="headerlink" title="安装 ios-ipa-server"></a>安装 ios-ipa-server</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g ios-ipa-server</span><br></pre></td></tr></table></figure>
+
+<h4 id="开启-ios-ipa-server"><a href="#开启-ios-ipa-server" class="headerlink" title="开启 ios-ipa-server"></a>开启 ios-ipa-server</h4><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">$ </span><span class="language-bash"><span class="built_in">cd</span> /path/of/ipa</span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ios-ipa-server</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">or</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_">$ </span><span class="language-bash">ios-ipa-server /path/of/ipa</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">open https://ip:port/download on your iphone</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="将导出的-ipa-文件复制到-ios-ipa-server-目录"><a href="#将导出的-ipa-文件复制到-ios-ipa-server-目录" class="headerlink" title="将导出的 ipa 文件复制到 ios-ipa-server 目录"></a>将导出的 ipa 文件复制到 ios-ipa-server 目录</h4><p>add Execute Shell：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash -l</span></span><br><span class="line">cd $&#123;JENKINS_HOME&#125;/jobs/$&#123;JOB_NAME&#125;/builds/$&#123;BUILD_NUMBER&#125;/archive</span><br><span class="line">DATE=$(date +%m%d-%H:%M)</span><br><span class="line">DISPLAY_NAME=$(/usr/libexec/PlistBuddy -c &quot;print CFBundleDisplayName&quot; $&#123;WORKSPACE&#125;/$&#123;JOB_NAME&#125;/Info.plist)</span><br><span class="line">cp $&#123;JOB_NAME&#125;.ipa ~/Documents/ipa/$&#123;DISPLAY_NAME&#125;$&#123;DATE&#125;.ipa</span><br></pre></td></tr></table></figure>
+<p>关于证书问题，iOS 10.3 (不确定版本了) 以上除了需要安装描述文件外，还需要到「关于本机」- 「证书信任设置」将 ios-ipa-server 开启。</p>
+<h3 id="Build-Triggers"><a href="#Build-Triggers" class="headerlink" title="Build Triggers"></a>Build Triggers</h3><p>可以设置一些触发构建条件。</p>
+<h4 id="Trigger-builds-remotely"><a href="#Trigger-builds-remotely" class="headerlink" title="Trigger builds remotely"></a>Trigger builds remotely</h4><p><img src="https://ws2.sinaimg.cn/large/006tNc79gy1fsxjm4steoj317i0c2mzi.jpg" alt="image-20180703105112845"></p>
+<p>在远程终端就可以通过以下指令来触发构建：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://username:password@ipAddr:8080/job/jobName/build\?token\=tokenName</span><br></pre></td></tr></table></figure>
+
+<p>或者 <code>/buildWithParameters?</code>，指定 Git Parameter 的分支 <code>&amp;Branches=master</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl http://username:password@ipAddr:8080/job/jobName/buildWithParameters\?token\=tokenName\&amp;Branches\=master</span><br></pre></td></tr></table></figure>
+
+<h5 id="Poll-SCM"><a href="#Poll-SCM" class="headerlink" title="Poll SCM"></a>Poll SCM</h5><p>Poll SCM 可以设置一个轮询周期，当 Git 上有代码更新才会触发构建：</p>
+<p><img src="https://ws4.sinaimg.cn/large/006tNc79gy1fsxjm5qj7ij316e08sq42.jpg" alt="image-20180703110056338"></p>
+<h3 id="可能出现的错误和解决"><a href="#可能出现的错误和解决" class="headerlink" title="可能出现的错误和解决"></a>可能出现的错误和解决</h3><h4 id="pod-command-not-found"><a href="#pod-command-not-found" class="headerlink" title="pod: command not found"></a>pod: command not found</h4><p>Execute shell 第一行加上 <code>!/bin/bash -l</code></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash -l</span></span><br><span class="line">cd FirstiOSItem</span><br><span class="line">export LANG=en_US.UTF-8</span><br><span class="line">pod install --verbose --no-repo-update</span><br></pre></td></tr></table></figure>
+
+<p>export 语句将控制台语言环境设置为 UTF-8</p>
+<h4 id="xcode-select-error-tool-‘xcodebuild’-requires-Xcode"><a href="#xcode-select-error-tool-‘xcodebuild’-requires-Xcode" class="headerlink" title="xcode-select: error: tool ‘xcodebuild’ requires Xcode"></a>xcode-select: error: tool ‘xcodebuild’ requires Xcode</h4><p>  xcode 路径错误，在终端输入以下：</p>
+  <figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer/</span><br><span class="line">xcodebuild -showsdks</span><br><span class="line">xcrun --sdk iphoneos --show-sdk-path</span><br></pre></td></tr></table></figure>
+
+<h4 id="error-exportArchive-“xx-app”-requires-a-provisioning-profile-Jenkins"><a href="#error-exportArchive-“xx-app”-requires-a-provisioning-profile-Jenkins" class="headerlink" title="error: exportArchive: “xx.app” requires a provisioning profile Jenkins"></a>error: exportArchive: “xx.app” requires a provisioning profile Jenkins</h4><p>正文已解决，参考<a target="_blank" rel="noopener" href="https://ermayursharma.wordpress.com/2017/11/24/how-to-add-export-option-plist-in-jenkins/">链接</a>。</p>
+<h3 id="最后，备份-Jenkins-配置"><a href="#最后，备份-Jenkins-配置" class="headerlink" title="最后，备份 Jenkins 配置"></a>最后，备份 Jenkins 配置</h3><p>理论上，把 <code>Jenkins Home</code>，也就是用户目录下 <code>.jenkins</code> 文件夹，打个 <code>.zip</code> 保存起来就可以了。<code>thinBackup</code> 就能做到这些，可以完全备份或者差异备份。</p>
+<p>不过这里用的是 GitHub 上的一个脚本(<a target="_blank" rel="noopener" href="https://gist.github.com/cenkalti/5089392">Backup Jenkins home periodicallly with git.</a>)，将 <code>*.xml</code> 配置文件保存到 git。</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta prompt_">#</span><span class="language-bash">!/bin/bash</span></span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">Setup</span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"></span></span><br><span class="line"><span class="language-bash"><span class="comment"># - Create a new Jenkins Job</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">- Mark <span class="string">&quot;None&quot;</span> <span class="keyword">for</span> Source Control Management</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">- Select the <span class="string">&quot;Build Periodically&quot;</span> build trigger</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">  - configure to run as frequently as you like</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">- Add a new <span class="string">&quot;Execute Shell&quot;</span> build step</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">  - Paste the contents of this file as the <span class="built_in">command</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">- Save</span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"> </span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash">NOTE: before this job will work, you<span class="string">&#x27;ll need to manually navigate to the $JENKINS_HOME directory</span></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">and do the initial set up of the git repository.</span></span>  </span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">Make sure the appropriate remote is added and the default remote/branch set up.</span></span></span><br><span class="line"><span class="meta prompt_">#</span><span class="language-bash"><span class="string"></span></span></span><br><span class="line"><span class="string"><span class="language-bash"></span></span><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">Jenkins Configuraitons Directory</span></span></span><br><span class="line">cd $JENKINS_HOME</span><br><span class="line">pwd</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">Add general configurations, job configurations, and user content</span></span></span><br><span class="line">git add -- *.xml jobs/*/*.xml userContent/*</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">only add user configurations if they exist</span></span></span><br><span class="line">if [ -d users ]; then</span><br><span class="line">    user_configs=`ls users/*/config.xml`</span><br><span class="line"></span><br><span class="line">    if [ -n &quot;$user_configs&quot; ]; then</span><br><span class="line">        git add $user_configs</span><br><span class="line">    fi</span><br><span class="line">fi</span><br><span class="line"><span class="meta prompt_"></span></span><br><span class="line"><span class="meta prompt_"># </span><span class="language-bash"><span class="string">mark as deleted anything that&#x27;</span>s been, well, deleted</span></span><br><span class="line">to_remove=`git status | grep &quot;deleted&quot; | awk &#x27;&#123;print $3&#125;&#x27;`</span><br><span class="line"></span><br><span class="line">if [ -n &quot;$to_remove&quot; ]; then</span><br><span class="line">    git rm --ignore-unmatch $to_remove</span><br><span class="line">fi</span><br><span class="line"></span><br><span class="line">git commit -m &quot;Automated Jenkins commit&quot;</span><br><span class="line"></span><br><span class="line">git push -q -u origin master</span><br></pre></td></tr></table></figure>
+
+<p>￼<img src="https://ws1.sinaimg.cn/large/006tNc79gy1frr84r0kdnj31800to0vw.jpg" alt="backup jenkins"></p>
+<p>新建一个 Item，设置一个周期性 Build Trigger。<code>H 18 * * 5</code> 表示每周五 18 点…</p>
+<p>Add Execute shell，将上面脚本填进去就行了。</p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/projects/">Projects</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-Jenkins"><span class="toc-number">1.</span> <span class="toc-text">安装 Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9D%E5%A7%8B%E5%8C%96%E9%85%8D%E7%BD%AE"><span class="toc-number">2.</span> <span class="toc-text">初始化配置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B1%80%E5%9F%9F%E7%BD%91%E5%86%85%E8%AE%BF%E9%97%AE-Jenkins"><span class="toc-number">3.</span> <span class="toc-text">局域网内访问 Jenkins</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA-x2F-%E9%85%8D%E7%BD%AE%E9%A1%B9%E7%9B%AE"><span class="toc-number">4.</span> <span class="toc-text">创建&#x2F;配置项目</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%85%8D%E7%BD%AE-Git-Parameter"><span class="toc-number">5.</span> <span class="toc-text">配置 Git Parameter</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96-Bundle-ID-%E5%92%8C-Provisioning-Profile-%E7%94%9F%E6%88%90-ExportOptions-plist"><span class="toc-number">6.</span> <span class="toc-text">获取 Bundle ID 和 Provisioning Profile 生成 ExportOptions.plist</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8D%95%E5%85%83%E6%B5%8B%E8%AF%95"><span class="toc-number">7.</span> <span class="toc-text">单元测试</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%8A%E4%BC%A0-ipa-%E5%88%B0%E6%B5%8B%E8%AF%95%E5%B9%B3%E5%8F%B0"><span class="toc-number">8.</span> <span class="toc-text">上传 ipa 到测试平台</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%AE%89%E8%A3%85-ios-ipa-server"><span class="toc-number">8.1.</span> <span class="toc-text">安装 ios-ipa-server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%BC%80%E5%90%AF-ios-ipa-server"><span class="toc-number">8.2.</span> <span class="toc-text">开启 ios-ipa-server</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%B0%86%E5%AF%BC%E5%87%BA%E7%9A%84-ipa-%E6%96%87%E4%BB%B6%E5%A4%8D%E5%88%B6%E5%88%B0-ios-ipa-server-%E7%9B%AE%E5%BD%95"><span class="toc-number">8.3.</span> <span class="toc-text">将导出的 ipa 文件复制到 ios-ipa-server 目录</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Build-Triggers"><span class="toc-number">9.</span> <span class="toc-text">Build Triggers</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Trigger-builds-remotely"><span class="toc-number">9.1.</span> <span class="toc-text">Trigger builds remotely</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#Poll-SCM"><span class="toc-number">9.1.1.</span> <span class="toc-text">Poll SCM</span></a></li></ol></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%AF%E8%83%BD%E5%87%BA%E7%8E%B0%E7%9A%84%E9%94%99%E8%AF%AF%E5%92%8C%E8%A7%A3%E5%86%B3"><span class="toc-number">10.</span> <span class="toc-text">可能出现的错误和解决</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#pod-command-not-found"><span class="toc-number">10.1.</span> <span class="toc-text">pod: command not found</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#xcode-select-error-tool-%E2%80%98xcodebuild%E2%80%99-requires-Xcode"><span class="toc-number">10.2.</span> <span class="toc-text">xcode-select: error: tool ‘xcodebuild’ requires Xcode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#error-exportArchive-%E2%80%9Cxx-app%E2%80%9D-requires-a-provisioning-profile-Jenkins"><span class="toc-number">10.3.</span> <span class="toc-text">error: exportArchive: “xx.app” requires a provisioning profile Jenkins</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E5%90%8E%EF%BC%8C%E5%A4%87%E4%BB%BD-Jenkins-%E9%85%8D%E7%BD%AE"><span class="toc-number">11.</span> <span class="toc-text">最后，备份 Jenkins 配置</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&text=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&is_video=false&description=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Jenkins + Xcode9 持续集成环境搭建&body=Check out this article: https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&title=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&name=Jenkins + Xcode9 持续集成环境搭建&description=&lt;p&gt;最近搭建了一套 Jenkins + Xcode9 持续集成环境，记录一下。&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://starkrimson.github.io/2018/05/29/Jenkins-with-Xcode9/&t=Jenkins + Xcode9 持续集成环境搭建"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    Starkrimson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'starkrimson';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>

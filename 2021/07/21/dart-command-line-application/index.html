@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="dart command-line application">
+<meta property="og:type" content="article">
+<meta property="og:title" content="编写 dart 命令行程序">
+<meta property="og:url" content="https://starkrimson.github.io/2021/07/21/dart-command-line-application/index.html">
+<meta property="og:site_name" content=".init()">
+<meta property="og:description" content="dart command-line application">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2021-07-21T02:00:00.000Z">
+<meta property="article:modified_time" content="2022-04-07T04:04:05.530Z">
+<meta property="article:author" content="Starkrimson">
+<meta property="article:tag" content="Dart">
+<meta property="article:tag" content="command-line">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>编写 dart 命令行程序</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+      <link rel="alternate" href="/true" title=".init()" type="application/atom+xml" />
+    
+	<!-- mathjax -->
+	
+<meta name="generator" content="Hexo 6.1.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" aria-label="Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        
+        <li><a class="icon" aria-label="Next post" href="/2018/11/15/upload-ipa-with-altool/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://starkrimson.github.io/2021/07/21/dart-command-line-application/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&text=编写 dart 命令行程序"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&is_video=false&description=编写 dart 命令行程序"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编写 dart 命令行程序&body=Check out this article: https://starkrimson.github.io/2021/07/21/dart-command-line-application/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&name=编写 dart 命令行程序&description=&lt;p&gt;dart command-line application&lt;/p&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&t=编写 dart 命令行程序"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ 创建应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E8%BF%90%E8%A1%8C%E5%BA%94%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ 运行应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ 输入输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%B8%8F%E2%83%A3-%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ 写入文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%B8%8F%E2%83%A3-%E6%96%87%E4%BB%B6%E5%A4%B9%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ 文件夹操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%EF%B8%8F%E2%83%A3-%E4%BD%BF%E7%94%A8-platform-%E8%8E%B7%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">6.</span> <span class="toc-text">6️⃣ 使用 platform 获取环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%EF%B8%8F%E2%83%A3-%E8%AE%BE%E7%BD%AE-exit-codes"><span class="toc-number">7.</span> <span class="toc-text">7️⃣ 设置 exit codes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%EF%B8%8F%E2%83%A3-%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="toc-number">8.</span> <span class="toc-text">8️⃣ 解析命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%EF%B8%8F%E2%83%A3-%E5%A4%9A%E5%91%BD%E4%BB%A4-CommandRunner"><span class="toc-number">9.</span> <span class="toc-text">9️⃣ 多命令  CommandRunner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%9F-catch-error"><span class="toc-number">10.</span> <span class="toc-text">🔟 catch error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">11.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        编写 dart 命令行程序
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Starkrimson</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2021-07-21T02:00:00.000Z" itemprop="datePublished">2021-07-21</time>
+        
+        (Updated: <time datetime="2022-04-07T04:04:05.530Z" itemprop="dateModified">2022-04-07</time>)
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/Dart/" rel="tag">Dart</a>, <a class="tag-link-link" href="/tags/command-line/" rel="tag">command-line</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>dart command-line application</p>
+<span id="more"></span>
+
+<h3 id="1️⃣-创建应用"><a href="#1️⃣-创建应用" class="headerlink" title="1️⃣ 创建应用"></a>1️⃣ 创建应用</h3><p>使用 <code>dart create</code> 命令，以 <code>console-full</code> 模板创建一个命令行应用：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ dart create -t console-full cli</span><br></pre></td></tr></table></figure>
+
+<p>该命令会创建一个包含下述信息的 Dart 应用：</p>
+<ul>
+<li>一个主要的 Dart 源文件，<code>bin/cli.dart</code>，该文件包含一个顶层 <code>main()</code> 函数。该函数是你应用的入口。</li>
+<li>一个额外的 Dart 文件，<code>lib/cli.dart</code>，包含一些功能性的函数方法，这些函数方法将会导入到 <code>cli.dart</code> 文件中。</li>
+<li>一个 pubspec 文件，<code>pubspec.yaml</code>，包含应用的元数据，包括应用依赖的 <a target="_blank" rel="noopener" href="https://dart.cn/guides/packages">package</a> 信息以及所需的版本等。</li>
+</ul>
+<h3 id="2️⃣-运行应用"><a href="#2️⃣-运行应用" class="headerlink" title="2️⃣ 运行应用"></a>2️⃣ 运行应用</h3><p>使用 <code>dart run</code> 命令在应用的根目录运行 Dart VM：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">cd</span> cli</span><br><span class="line">$ dart run</span><br><span class="line">Hello world: 42!</span><br></pre></td></tr></table></figure>
+
+<h3 id="3️⃣-输入输出"><a href="#3️⃣-输入输出" class="headerlink" title="3️⃣ 输入输出"></a>3️⃣ 输入输出</h3><p><code>stdin</code>, <code>stdout</code>, and <code>stderr</code>.</p>
+<p>导入 <code>dart:io</code>。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import <span class="string">&#x27;dart:io&#x27;</span>;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>stdout</code> The standard output</p>
+  <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">stdout.write(<span class="string">&#x27;Hello &#x27;</span>); <span class="comment">// 不换行</span></span><br><span class="line">stdout.writeln(<span class="string">&#x27;World&#x27;</span>); <span class="comment">// 换行</span></span><br><span class="line"></span><br><span class="line"><span class="comment">/// <span class="language-markdown">输出</span></span></span><br><span class="line">$ dart run bin/cli.dart</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>stdin</code> The standard input</p>
+  <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">stdout.writeln(<span class="string">&#x27;Type something:&#x27;</span>);</span><br><span class="line"><span class="keyword">final</span> input = stdin.readLineSync(); <span class="comment">// 等待用户输入</span></span><br><span class="line">stdout.writeln(<span class="string">&#x27;Yout typed: <span class="subst">$input</span>&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">/// <span class="language-markdown">输出</span></span></span><br><span class="line"><span class="built_in">Type</span> something:</span><br><span class="line">Hola</span><br><span class="line">Yout typed: Hola</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>stderr</code> The standard input</p>
+  <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (input != <span class="string">&#x27;Hola&#x27;</span>) &#123;</span><br><span class="line">  stderr.writeln(<span class="string">&#x27;error: input <span class="subst">$input</span> != \&#x27;Hola\&#x27;&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="built_in">Type</span> something:</span><br><span class="line">Hello</span><br><span class="line">Yout typed: Hello</span><br><span class="line">error: input Hello != <span class="string">&#x27;Hola&#x27;</span> <span class="comment">// stderr</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="4️⃣-写入文件"><a href="#4️⃣-写入文件" class="headerlink" title="4️⃣ 写入文件"></a>4️⃣ 写入文件</h3><ul>
+<li><p>新建文件，写入数据。</p>
+  <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> file = File(<span class="string">&#x27;text.txt&#x27;</span>);</span><br><span class="line"><span class="keyword">final</span> str = <span class="string">&#x27;The quick brown fox jumps over the lazy dog.&#x27;</span>;</span><br><span class="line"><span class="keyword">await</span> file.writeAsString(str, mode: FileMode.write);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 当前文件夹生成 text.txt 文件。</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>打开文件，写入更多数据。</p>
+  <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> file = File(<span class="string">&#x27;text.txt&#x27;</span>).openWrite(mode: FileMode.append);</span><br><span class="line"></span><br><span class="line">file.write(<span class="string">&#x27;The quick brown fox &#x27;</span>);</span><br><span class="line">file.writeln(<span class="string">&#x27;jumps over the lazy dog.&#x27;</span>);</span><br><span class="line"><span class="keyword">await</span> file.close();</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h3 id="5️⃣-文件夹操作"><a href="#5️⃣-文件夹操作" class="headerlink" title="5️⃣ 文件夹操作"></a>5️⃣ 文件夹操作</h3><p>导入 <code>path</code> 库：<code>import &#39;package:path/path.dart&#39;;</code></p>
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> dir = Directory(<span class="string">&#x27;lib&#x27;</span>);</span><br><span class="line"><span class="keyword">if</span> (!<span class="keyword">await</span> dir.exists()) &#123;</span><br><span class="line">  dir.createSync(); <span class="comment">// 新建文件夹</span></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> newFilePath = path.joinAll([dir.path, <span class="string">&#x27;cli.dart&#x27;</span>]); <span class="comment">// 使用 path 库 joinAll 拼接路径</span></span><br><span class="line">stdout.writeln(newFilePath);</span><br><span class="line"></span><br><span class="line"><span class="keyword">final</span> newFile = File(newFilePath).openWrite(mode: FileMode.write);</span><br><span class="line">newFile.writeln(<span class="string">&#x27;import \&#x27;dart:io\&#x27;;&#x27;</span>);</span><br><span class="line">newFile.writeln(<span class="string">&#x27;print(\&#x27;Hello World!\&#x27;);&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="6️⃣-使用-platform-获取环境变量"><a href="#6️⃣-使用-platform-获取环境变量" class="headerlink" title="6️⃣ 使用 platform 获取环境变量"></a>6️⃣ 使用 <a target="_blank" rel="noopener" href="https://api.dart.dev/stable/dart-io/Platform-class.html">platform</a> 获取环境变量</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> envVarMap = Platform.environment;</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;PWD = <span class="subst">$&#123;envVarMap[<span class="string">&quot;PWD&quot;</span>]&#125;</span>&#x27;</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;LOGNAME = <span class="subst">$&#123;envVarMap[<span class="string">&quot;LOGNAME&quot;</span>]&#125;</span>&#x27;</span>);</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;PATH = <span class="subst">$&#123;envVarMap[<span class="string">&quot;PATH&quot;</span>]&#125;</span>&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+<h3 id="7️⃣-设置-exit-codes"><a href="#7️⃣-设置-exit-codes" class="headerlink" title="7️⃣ 设置 exit codes"></a>7️⃣ 设置 exit codes</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">...</span><br><span class="line"></span><br><span class="line">exitCode = <span class="number">0</span>;</span><br><span class="line"></span><br><span class="line"><span class="comment">// 0: Success</span></span><br><span class="line"><span class="comment">// 1: Warnings</span></span><br><span class="line"><span class="comment">// 2: Errors</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="8️⃣-解析命令行参数"><a href="#8️⃣-解析命令行参数" class="headerlink" title="8️⃣ 解析命令行参数"></a>8️⃣ 解析命令行参数</h3><ol>
+<li><p>添加 <a target="_blank" rel="noopener" href="https://pub.flutter-io.cn/packages/args">args</a> 依赖</p>
+ <figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="string">//</span> <span class="string">pubspec.yaml</span></span><br><span class="line"></span><br><span class="line"><span class="attr">dependencies:</span></span><br><span class="line">  <span class="attr">args:</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>导入</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:args/args.dart&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>ArgParser</code> 解析</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">final</span> parser = ArgParser()..addOption(<span class="string">&#x27;name&#x27;</span>, abbr: <span class="string">&#x27;n&#x27;</span>, help: <span class="string">&#x27;Greeting&#x27;</span>);</span><br><span class="line"><span class="keyword">final</span> argResults = parser.parse(arguments);</span><br><span class="line"><span class="keyword">final</span> name = argResults[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&#x27;Hello <span class="subst">$name</span>!&#x27;</span>);</span><br><span class="line"></span><br><span class="line"><span class="comment">// 输出</span></span><br><span class="line">$ pub run cli -n World</span><br><span class="line">Hello World!</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="9️⃣-多命令-CommandRunner"><a href="#9️⃣-多命令-CommandRunner" class="headerlink" title="9️⃣ 多命令  CommandRunner"></a>9️⃣ 多命令  <code>CommandRunner</code></h3><ol>
+<li><p>导入</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> <span class="string">&#x27;package:args/command_runner.dart&#x27;</span>;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>自定义命令</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">GreetingCommand</span> <span class="keyword">extends</span> <span class="title">Command</span> </span>&#123;</span><br><span class="line">  GreetingCommand() &#123;</span><br><span class="line">    argParser.addOption(<span class="string">&#x27;name&#x27;</span>, abbr: <span class="string">&#x27;n&#x27;</span>, help: <span class="string">&#x27;Greeting&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">String</span> <span class="keyword">get</span> name =&gt; <span class="string">&#x27;greeting&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="built_in">String</span> <span class="keyword">get</span> description =&gt; <span class="string">&#x27;欢迎&#x27;</span>;</span><br><span class="line"></span><br><span class="line">  <span class="meta">@override</span></span><br><span class="line">  <span class="keyword">void</span> run() &#123;</span><br><span class="line">    <span class="keyword">final</span> name = argResults[<span class="string">&#x27;name&#x27;</span>];</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&#x27;Hello <span class="subst">$name</span>!&#x27;</span>);</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>使用 <code>CommandRunner</code> 添加命令</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; arguments) &#123;</span><br><span class="line">  CommandRunner(<span class="string">&#x27;cli&#x27;</span>, <span class="string">&#x27;desc&#x27;</span>)</span><br><span class="line">    ..addCommand(GreetingCommand())</span><br><span class="line">    ..run(arguments);</span><br><span class="line"></span><br><span class="line">  exitCode = <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>命令行使用说明 (help)</p>
+ <figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// cli 帮助</span></span><br><span class="line">$ pub run cli -h</span><br><span class="line">desc</span><br><span class="line"></span><br><span class="line">Usage: cli &lt;command&gt; [arguments]</span><br><span class="line"></span><br><span class="line">Global options:</span><br><span class="line">-h, --help    Print <span class="keyword">this</span> usage information.</span><br><span class="line"></span><br><span class="line">Available commands:</span><br><span class="line">  greeting   欢迎</span><br><span class="line"></span><br><span class="line">Run <span class="string">&quot;cli help &lt;command&gt;&quot;</span> <span class="keyword">for</span> more information about a command.</span><br><span class="line"></span><br><span class="line"><span class="comment">// greeting 帮助</span></span><br><span class="line">$ pub run cli greeting -h</span><br><span class="line">欢迎</span><br><span class="line"></span><br><span class="line">Usage: cli greeting [arguments]</span><br><span class="line">-h, --help    Print <span class="keyword">this</span> usage information.</span><br><span class="line">-n, --name    Greeting</span><br><span class="line"></span><br><span class="line">Run <span class="string">&quot;cli help&quot;</span> to see global options.</span><br></pre></td></tr></table></figure></li>
+</ol>
+<h3 id="🔟-catch-error"><a href="#🔟-catch-error" class="headerlink" title="🔟 catch error"></a>🔟 catch error</h3><figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> main(<span class="built_in">List</span>&lt;<span class="built_in">String</span>&gt; arguments) <span class="keyword">async</span> &#123;</span><br><span class="line">  <span class="keyword">try</span> &#123;</span><br><span class="line">    <span class="keyword">final</span> runner = CommandRunner&lt;<span class="built_in">int</span>&gt;(<span class="string">&#x27;cli&#x27;</span>, <span class="string">&#x27;desc&#x27;</span>)</span><br><span class="line">      ..addCommand(GreetingCommand());</span><br><span class="line">    <span class="keyword">final</span> result = <span class="keyword">await</span> runner.run(arguments);</span><br><span class="line">    exitCode = result;</span><br><span class="line">  &#125; <span class="keyword">catch</span> (e, s) &#123;</span><br><span class="line">    <span class="keyword">if</span> (e <span class="keyword">is</span> UsageException) &#123;</span><br><span class="line">      <span class="built_in">print</span>(red.wrap(e.message));</span><br><span class="line">      <span class="built_in">print</span>(<span class="string">&#x27; &#x27;</span>);</span><br><span class="line">      <span class="built_in">print</span>(e.usage);</span><br><span class="line">      exitCode = ExitCode.usage.code;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">      <span class="built_in">print</span>(red.wrap(e.toString()));</span><br><span class="line">      <span class="built_in">print</span>(red.wrap(s.toString()));</span><br><span class="line">      exitCode = ExitCode.unavailable.code;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight dart"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ pub run cli greeting -n</span><br><span class="line">Missing argument <span class="keyword">for</span> <span class="string">&quot;name&quot;</span>.</span><br><span class="line"> </span><br><span class="line">Usage: cli greeting [arguments]</span><br><span class="line">-h, --help    Print <span class="keyword">this</span> usage information.</span><br><span class="line">-n, --name    Greeting</span><br><span class="line"></span><br><span class="line">Run <span class="string">&quot;cli help&quot;</span> to see global options.</span><br></pre></td></tr></table></figure>
+
+<h3 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h3><p><a target="_blank" rel="noopener" href="https://dart.cn/tools/pub/cmd/pub-global">pub global 命令</a></p>
+<p><a target="_blank" rel="noopener" href="https://dart.cn/tutorials/server/cmdline">编写命令行应用</a></p>
+<p><a target="_blank" rel="noopener" href="https://dart.cn/tutorials/server/get-started">起步教程：编写命令行和服务端应用</a></p>
+
+  </div>
+</article>
+
+    <div class="blog-post-comments">
+        <div id="disqus_thread">
+            <noscript>Please enable JavaScript to view the comments.</noscript>
+        </div>
+    </div>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/projects/">Projects</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/about/">About</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-3"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E5%88%9B%E5%BB%BA%E5%BA%94%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">1️⃣ 创建应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E8%BF%90%E8%A1%8C%E5%BA%94%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">2️⃣ 运行应用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E8%BE%93%E5%85%A5%E8%BE%93%E5%87%BA"><span class="toc-number">3.</span> <span class="toc-text">3️⃣ 输入输出</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4%EF%B8%8F%E2%83%A3-%E5%86%99%E5%85%A5%E6%96%87%E4%BB%B6"><span class="toc-number">4.</span> <span class="toc-text">4️⃣ 写入文件</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5%EF%B8%8F%E2%83%A3-%E6%96%87%E4%BB%B6%E5%A4%B9%E6%93%8D%E4%BD%9C"><span class="toc-number">5.</span> <span class="toc-text">5️⃣ 文件夹操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6%EF%B8%8F%E2%83%A3-%E4%BD%BF%E7%94%A8-platform-%E8%8E%B7%E5%8F%96%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F"><span class="toc-number">6.</span> <span class="toc-text">6️⃣ 使用 platform 获取环境变量</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7%EF%B8%8F%E2%83%A3-%E8%AE%BE%E7%BD%AE-exit-codes"><span class="toc-number">7.</span> <span class="toc-text">7️⃣ 设置 exit codes</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#8%EF%B8%8F%E2%83%A3-%E8%A7%A3%E6%9E%90%E5%91%BD%E4%BB%A4%E8%A1%8C%E5%8F%82%E6%95%B0"><span class="toc-number">8.</span> <span class="toc-text">8️⃣ 解析命令行参数</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#9%EF%B8%8F%E2%83%A3-%E5%A4%9A%E5%91%BD%E4%BB%A4-CommandRunner"><span class="toc-number">9.</span> <span class="toc-text">9️⃣ 多命令  CommandRunner</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%F0%9F%94%9F-catch-error"><span class="toc-number">10.</span> <span class="toc-text">🔟 catch error</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E8%80%83"><span class="toc-number">11.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=https://starkrimson.github.io/2021/07/21/dart-command-line-application/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&text=编写 dart 命令行程序"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&is_video=false&description=编写 dart 命令行程序"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=编写 dart 命令行程序&body=Check out this article: https://starkrimson.github.io/2021/07/21/dart-command-line-application/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&title=编写 dart 命令行程序"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&name=编写 dart 命令行程序&description=&lt;p&gt;dart command-line application&lt;/p&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=https://starkrimson.github.io/2021/07/21/dart-command-line-application/&t=编写 dart 命令行程序"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2022
+    Starkrimson
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+        <!--
+       --><li><a href="/">Home</a></li><!--
+     --><!--
+       --><li><a href="/projects/">Projects</a></li><!--
+     --><!--
+       --><li><a href="/archives/">Writing</a></li><!--
+     --><!--
+       --><li><a href="/about/">About</a></li><!--
+     -->
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+    <script type="text/javascript">
+        var disqus_shortname = 'starkrimson';
+
+        (function(){
+            var dsq = document.createElement('script');
+            dsq.type = 'text/javascript';
+            dsq.async = true;
+            dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        }());
+    </script>
+
+<!-- utterances Comments -->
+
+</body>
+</html>
